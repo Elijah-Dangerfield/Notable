@@ -1,0 +1,88 @@
+[versions]
+fragment = "1.5.0"
+androidGradlePlugin = "7.3.1"
+kotlin = "1.7.20"
+androidDesugarJdkLibs = "1.2.0"
+androidxCoreSplashscreen = "1.0.0"
+hilt = "2.44.1"
+coroutines = "1.6.4"
+
+#plugins
+detekt = "1.21.0"
+
+[libraries]
+# AndroidX
+androidx-appcompat = "androidx.appcompat:appcompat:1.6.0-alpha05"
+androidx-core = "androidx.core:core-ktx:1.9.0-alpha05"
+androidx-constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.4"
+androidx-legacy-support = "androidx.legacy:legacy-support-v4:1.0.0"
+androidx-lifecycle-ext = "androidx.lifecycle:lifecycle-extensions:2.2.0"
+androidx-lifecycle-vm = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0-alpha01"
+androidx-recyclerview = "androidx.recyclerview:recyclerview:1.3.0-beta01"
+androidx-test-junit = "androidx.test.ext:junit-ktx:1.1.3"
+androidx-test-core = "androidx.test:core-ktx:1.4.0"
+androidx-test-arch-core = "androidx.arch.core:core-testing:2.1.0"
+androidx-test-espresso-core = "androidx.test.espresso:espresso-core:3.5.0-alpha07"
+androidx-test-runner = "androidx.test:runner:1.5.0-alpha04"
+androidx-worker = "androidx.work:work-runtime-ktx:2.7.1"
+android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
+androidx-lifecycle-runtime = "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSplashscreen" }
+androidx-fragment = { module = "androidx.fragment:fragment", version.ref = "fragment" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment" }
+
+kotlin-std = "org.jetbrains.kotlin:kotlin-stdlib:1.0.0"
+
+arch-fragment-navigation = "android.arch.navigation:navigation-fragment:1.0.0"
+arch-navigation-ui = "android.arch.navigation:navigation-ui:1.0.0"
+
+google-play-services-ads = "com.google.android.gms:play-services-ads:21.0.0"
+google-services = "com.google.gms:google-services:4.3.14"
+
+koin-core = "io.insert-koin:koin-core:3.1.6"
+koin-android = "io.insert-koin:koin-android:3.1.6"
+koin-testing = "io.insert-koin:koin-test:3.1.6"
+koin-junit = "io.insert-koin:koin-test-junit4:3.1.6"
+
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+hilt-gradle = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+
+javax-inject = { module = "javax.inject:javax.inject", version = "1" }
+
+#Firebase
+firebase-database = "com.google.firebase:firebase-database:20.0.5"
+firebase-firestore = "com.google.firebase:firebase-firestore:24.2.0"
+firebase-storage = "com.google.firebase:firebase-storage:20.0.1"
+firebase-crashlytics = "com.google.firebase:firebase-crashlytics-gradle:2.9.2"
+
+#Testing
+junit = "junit:junit:4.13.2"
+roboelectric = "org.robolectric:robolectric:4.6.1"
+mockito = "org.mockito:mockito-core:3.9.0"
+mockito-kotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+google-truth = "com.google.truth:truth:1.1.3"
+
+# KotlinX Coroutines
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "coroutines" }
+kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-rx3 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-rx3", version.ref = "coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+
+#UI
+lottie = "com.airbnb.android:lottie:3.7.0"
+
+# Lint
+detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+
+# Dependencies of the included build-logic
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
