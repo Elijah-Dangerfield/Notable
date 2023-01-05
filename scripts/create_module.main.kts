@@ -32,14 +32,14 @@ fun main() {
         readLine()!!.lowercase()
     }
 
-    val moduleName = args.getOrNull(1) ?: run {
-        print("Enter module name (in camelCase): ")
-        readLine()!!
-    }
-
     if (moduleType != "library" && moduleType != "feature") {
         printRed("Error: Invalid module type. Must be \"library\" or \"feature\"")
         return
+    }
+
+    val moduleName = args.getOrNull(1) ?: run {
+        print("Enter module name (in camelCase): ")
+        readLine()!!
     }
 
     val (baseDir, newDir) = createDirectory(moduleType, moduleName)
@@ -61,7 +61,7 @@ fun updateSettingGradleFile(baseDir: String, moduleName: String) {
     val includeLine = "include(\"$baseDir:$moduleName\")"
 
     val includePattern = Pattern.compile("include\\(\"[^\\)]+\"\\)")
-    val settingsFile = File("settings.gradle.kts.kts")
+    val settingsFile = File("settings.gradle.kts")
     val settingsLines = settingsFile.readLines().toMutableList()
 
     if (!settingsLines.contains(includeLine)) {
