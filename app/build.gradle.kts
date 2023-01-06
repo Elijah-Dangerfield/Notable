@@ -1,7 +1,6 @@
-import com.notable.convention.shared.getModule
-
 plugins {
     id("notable.android.application")
+    id("notable.android.application.compose")
     id("notable.android.hilt")
     id("com.google.gms.google-services")
     id("org.jetbrains.kotlin.android")
@@ -52,24 +51,31 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
 
     // firebase libraries
+    implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.database)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage)
 
-    //  that sweet sweet kotlin coroutines library
     implementation(libs.kotlinx.coroutines)
     implementation(libs.kotlinx.coroutines.play.services)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-    // Needed JUnit version
-    testImplementation(libs.koin.junit)
+    implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.lifecycle.runtimeCompose)
+    implementation(libs.androidx.compose.runtime.tracing)
+    implementation(libs.androidx.compose.material3.windowSizeClass)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.window.manager)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.espresso.core)
-
     testImplementation(libs.androidx.test.junit)
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.androidx.test.arch.core)

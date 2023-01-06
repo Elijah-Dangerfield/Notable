@@ -13,5 +13,4 @@ dependencies {
     testImplementation(libs.androidx.test.junit)
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.google.truth)
-    //implementation(getModule("libraries:coreCommon"))
 }

@@ -20,6 +20,10 @@ dependencies {
 
 gradlePlugin {
     plugins {
+        register("androidApplicationCompose") {
+            id = "notable.android.application.compose"
+            implementationClass = "AndroidApplicationComposeConventionPlugin"
+        }
         register("androidApplication") {
             id = "notable.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
@@ -27,6 +31,10 @@ gradlePlugin {
         register("androidLibrary") {
             id = "notable.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
+        }
+        register("androidLibraryCompose") {
+            id = "notable.android.library.compose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
         register("androidFeature") {
             id = "notable.android.feature"
