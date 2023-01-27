@@ -13,21 +13,22 @@ fun printGreen(text: String) {
 }
 
 if (args.size < 2 || args[0] == "-h" || args[0].contains("help")) {
-    printRed("""
+    printRed(
+        """
         This script validates the inputs to the create_release_branch.yml script 
         
         Usage: ./validate_release_inputs.main.kts [versionName] 
         versionName (required): "1.2.4", "1.5.19", ...
-    """.trimIndent())
+        """.trimIndent()
+    )
 
     @Suppress("TooGenericExceptionThrown")
     throw Exception("See Message Above")
 }
 
-
 val appVersion = args[0]
 
-class ValidationError(validationErrorMessage: String) :Exception(validationErrorMessage)
+class ValidationError(validationErrorMessage: String) : Exception(validationErrorMessage)
 
 fun isAppVersionValid(): Boolean {
     // Regular expression to match a version code of the form "x.y.z"
@@ -38,10 +39,12 @@ fun isAppVersionValid(): Boolean {
     return xyzMatcher.matches(appVersion) || xyMatcher.matches(appVersion)
 }
 
-val appVersionValidationError = ValidationError("""
+val appVersionValidationError = ValidationError(
+    """
     The app version "$appVersion" is invalid. 
     Please make sure you enter an app version in the format x.y.z (major, minor, patch [optional])
-""".trimIndent())
+    """.trimIndent()
+)
 
 if (!isAppVersionValid()) throw appVersionValidationError
 else printGreen("Good news. The inputs to create the release are valid. ")

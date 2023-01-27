@@ -6,7 +6,6 @@
 import org.kohsuke.github.GHRelease
 import org.kohsuke.github.GHRepository
 import org.kohsuke.github.GitHub
-import java.io.File
 
 val red = "\u001b[31m"
 val green = "\u001b[32m"
@@ -38,7 +37,7 @@ if (isHelpCall || args.size < minArgs) {
         [RUN_ID] - the number uniquely associated with this workflow run. Used to get artifacts url.
         [TAG_NAME] - Optional, The name of the tag associated with the draft release created for this PR
         
-    """.trimIndent()
+        """.trimIndent()
     )
 
     @Suppress("TooGenericExceptionThrown")
@@ -86,18 +85,20 @@ fun updatePRArtifactsComment(
     val baseMessage = """
 # Automated PR Assets Links
 ${
-        (if (releaseDraft != null) """
+    (
+        if (releaseDraft != null) """
 - ##### [Release Draft](${releaseDraft.htmlUrl}) 
 - ##### [Release (once published)]($publishedReleaseUrl)
 When it is time to release, publish the draft release and merge this PR. 
-""".trimIndent() else null) ?: ""
+        """.trimIndent() else null
+        ) ?: ""
     }
     
 These assets are automatically generated on pull requests. Some links may not work until all jobs in the pull request workflow have finished. Every update to this PR will generate a new row in the assets table. 
         
 | Commit | Build Number | Assets | 
 |---|---|---|
-""".trimIndent()
+    """.trimIndent()
 
     @Suppress("MagicNumber")
     val lastCommitSha = repo.getPullRequest(pullNumber).head.sha.take(7)

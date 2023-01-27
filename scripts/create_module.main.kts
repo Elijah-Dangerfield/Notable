@@ -5,9 +5,6 @@ import java.io.BufferedWriter
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.nio.file.StandardCopyOption
 import java.util.regex.Pattern
 
 val red = "\u001b[31m"
@@ -22,43 +19,55 @@ fun printGreen(text: String) {
     println(green + text + reset)
 }
 
-
 fun main() {
 
     if (checkForHelpCall()) return
 
     val moduleType = args.getOrNull(0) ?: run {
-        print("Enter module type (\"library\" or \"feature\"): ")
+        print("Enter module type (\"core\" or \"feature\"): ")
         readLine()!!.lowercase()
     }
 
-    if (moduleType != "library" && moduleType != "feature") {
-        printRed("Error: Invalid module type. Must be \"library\" or \"feature\"")
+    if (moduleType != "core" && moduleType != "feature") {
+        printRed("Error: Invalid module type. Must be \"core\" or \"feature\"")
         return
     }
 
-    val moduleName = args.getOrNull(1) ?: run {
-        print("Enter module name (in camelCase): ")
+    val moduleNameLine = args.getOrNull(1) ?: run {
+        print(
+            """
+            Enter the module name in camelCase. 
+            If this module is a sub module enter the name in the form "parentModule:subModule": 
+            """.trimIndent()
+        )
         readLine()!!
     }
 
-    val (baseDir, newDir) = createDirectory(moduleType, moduleName)
+    val (parentModule, moduleName) = moduleNameLine.split(":").let {
+        if (it.size > 1) Pair(it[0], it[1]) else Pair(null, it[0])
+    }
 
-    createPackage(moduleName, newDir)
+    val baseDir = if (moduleType == "core") "core" else "features"
 
-    updateSettingGradleFile(baseDir, moduleName)
+    val newDir = createDirectory(baseDir, moduleName, parentModule)
 
-    updateGradleBuildFile(moduleType, newDir, moduleName)
+    createPackage(newDir)
 
-   printGreen("""
+    updateSettingGradleFile(baseDir, moduleName, parentModule)
+
+    updateGradleBuildFile(moduleType, newDir)
+
+    printGreen(
+        """
        Success! 
        The $moduleType module "$moduleName" was created. 
        Please make sure to update the readme.
-   """.trimIndent())
+        """.trimIndent()
+    )
 }
 
-fun updateSettingGradleFile(baseDir: String, moduleName: String) {
-    val includeLine = "include(\"$baseDir:$moduleName\")"
+fun updateSettingGradleFile(baseDir: String, moduleName: String, parentModule: String?) {
+    val includeLine = "include(\"$baseDir:${if (parentModule != null) "$parentModule:" else "" }$moduleName\")"
 
     val includePattern = Pattern.compile("include\\(\"[^\\)]+\"\\)")
     val settingsFile = File("settings.gradle.kts")
@@ -76,32 +85,30 @@ fun updateSettingGradleFile(baseDir: String, moduleName: String) {
     settingsFile.writeText(settingsLines.joinToString("\n"))
 }
 
+fun createPackage(directory: String) {
+    val packageString = directory.replace("/", ".").lowercase()
+    val packageName = "com.dangerfield.$packageString"
 
-fun createPackage(moduleName: String, newDir: String) {
-    val packageName =  "com.dangerfield.${moduleName.lowercase()}"
-
-    val mainDir = File("$newDir/src/main/java/$packageName")
+    val mainDir = File("$directory/src/main/java/$packageName")
     mainDir.mkdirs()
 
-    val testDir = File("$newDir/src/test/java/$packageName")
+    val testDir = File("$directory/src/test/java/$packageName")
     testDir.mkdirs()
-
 }
 
-fun createDirectory(moduleType: String, moduleName: String): Pair<String, String> {
-    val baseDir = if (moduleType == "library") "libraries" else "features"
-    val exampleDir = "example"
-    val newDir = "$baseDir/$moduleName"
+fun createDirectory(baseDir: String, moduleName: String, parentModule: String?): String {
+    val exampleDir = "scripts/example"
+    val newDir = "$baseDir/${if (parentModule != null) "$parentModule/" else ""}$moduleName"
 
     File(exampleDir).copyRecursively(File(newDir), overwrite = true)
 
-    return Pair(baseDir, newDir)
+    return newDir
 }
 
-fun updateGradleBuildFile(moduleType: String, newDir: String, moduleName: String) {
-    val buildFile = if (moduleType == "library") {
-        val currentBuildFile = File("$newDir/librarybuild.gradle.kts")
-        val newBuildFile = File("$newDir/build.gradle.kts.kts")
+fun updateGradleBuildFile(moduleType: String, newDir: String) {
+    val buildFile = if (moduleType == "core") {
+        val currentBuildFile = File("$newDir/corebuild.gradle.kts")
+        val newBuildFile = File("$newDir/build.gradle.kts")
         val fileToDelete = File("$newDir/featurebuild.gradle.kts")
 
         currentBuildFile.renameTo(newBuildFile)
@@ -109,8 +116,8 @@ fun updateGradleBuildFile(moduleType: String, newDir: String, moduleName: String
         newBuildFile
     } else {
         val currentBuildFile = File("$newDir/featurebuild.gradle.kts")
-        val newBuildFile = File("$newDir/build.gradle.kts.kts")
-        val fileToDelete = File("$newDir/librarybuild.gradle.kts")
+        val newBuildFile = File("$newDir/build.gradle.kts")
+        val fileToDelete = File("$newDir/corebuild.gradle")
 
         currentBuildFile.renameTo(newBuildFile)
         fileToDelete.delete()
@@ -123,7 +130,7 @@ fun updateGradleBuildFile(moduleType: String, newDir: String, moduleName: String
     var line = reader.readLine()
     while (line != null) {
         if (line.contains("namespace = \"com.dangerfield.example\"")) {
-            line = line.replace("com.dangerfield.example", "com.dangerfield.${moduleName.lowercase()}")
+            line = line.replace("com.dangerfield.example", "com.dangerfield.${newDir.replace("/",".").lowercase()}")
         }
         modifiedLines.add(line)
         line = reader.readLine()
@@ -149,10 +156,10 @@ fun checkForHelpCall(): Boolean {
                
                
                Usage: ./create_module.main.kts [options]
-               option module-type - the type of the module to create: "library" or "feature" 
+               option module-type - the type of the module to create: "core" or "feature" 
                option module-name - The camelCase name of the module to create
                
-    """.trimIndent()
+            """.trimIndent()
         )
     }
 

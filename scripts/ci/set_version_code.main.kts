@@ -2,7 +2,6 @@
 
 import java.io.BufferedReader
 import java.io.BufferedWriter
-import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
 import java.util.Properties
@@ -21,13 +20,15 @@ fun printGreen(text: String) {
 
 @Suppress("ComplexCondition")
 if (args.isEmpty() || args[0] == "-h" || args[0] == "--help" || args[0].contains("help")) {
-    printRed("""
+    printRed(
+        """
         This script sets the version code for the app. 
         Ci uses to distinguish app builds per workflow run
         
         Usage: ./set_version_code.main.kts [versionCode] 
         versionCode: 500, 543, ...
-    """.trimIndent())
+        """.trimIndent()
+    )
 
     @Suppress("TooGenericExceptionThrown")
     throw Exception("See Message Above")
@@ -43,10 +44,10 @@ reader.close()
 
 properties.setProperty("versionCode", inputVersionCode)
 
-
 // Save the .properties file
 val writer = BufferedWriter(FileWriter("app.properties"))
-writer.write("""
+writer.write(
+    """
     # These properties are referenced in: \n
     # AndroidApplicationConventionPlugin.kt  \n
     # and set by out CI workflow -> .github/workflows/create-release..
@@ -56,7 +57,8 @@ writer.write("""
     # version name
     # The version name is set by the set_version_name script which is triggered by a github action
     
-""".trimIndent())
+    """.trimIndent()
+)
 writer.newLine()
 properties.store(writer, null)
 writer.close()

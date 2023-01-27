@@ -1,7 +1,6 @@
 package com.notable.convention.shared
 
 import com.android.build.api.dsl.CommonExtension
-import com.notable.convention.shared.SharedConstants.targetSdk
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -10,8 +9,6 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.provideDelegate
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsExtension
-import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsFeature
 
 /**
  * Configure base Kotlin with Android options
@@ -74,7 +71,8 @@ fun Project.printDebugSigningWarningIfNeeded() {
         loadGradleProperty("com.notable.releaseDebugSigningEnabled").toBoolean()
 
     if (!isCi && isLocalReleaseDebugSigningEnabled) {
-        printRed("""
+        printRed(
+            """
             This release was signed with a debug signing config.
              
             If you need a genuine signed build then you will need to make sure that the
@@ -86,6 +84,7 @@ fun Project.printDebugSigningWarningIfNeeded() {
             To locate our keystore info please visit: 
             https://drive.google.com/drive/folders/1EtwJrbEPPOlhpdFh7yNHwOv20HMrF8KJ
             
-        """.trimIndent())
+            """.trimIndent()
+        )
     }
 }

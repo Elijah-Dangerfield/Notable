@@ -1,6 +1,6 @@
-
 import com.notable.convention.shared.BuildEnvironment
 import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -8,6 +8,11 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
+
+private const val KOTLIN_FILES = "**/*.kt"
+private const val KOTLIN_SCRIPTS = "**/*.kts"
+private const val RES_FILES = "**/resources/**"
+private const val BUILD_FILES = "**/build/**"
 
 class AndroidDetektConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -35,6 +40,24 @@ class AndroidDetektConventionPlugin : Plugin<Project> {
                     setupCommonDetektSettings()
                 }
             }
+
+            /**
+             * Runs detekt for all Kotlin files.
+             */
+            @Suppress("SpreadOperator")
+            if (rootProject.tasks.findByName("detektGenerateBaseline") == null) {
+                rootProject.tasks.register<DetektCreateBaselineTask>("detektGenerateBaseline") {
+                    description = "CCustom Detekt build to build baseline for all modules."
+                    parallel.set(true)
+                    ignoreFailures.set(false)
+                    buildUponDefaultConfig.set(true)
+                    source = project.fileTree(project.projectDir)
+                    baseline.set(project.file("${project.rootDir}/config/detekt/detekt-baseline.xml"))
+                    config.from(project.file("${project.rootDir}/config/detekt/detekt.yml"))
+                    include(KOTLIN_FILES, KOTLIN_SCRIPTS)
+                    exclude(RES_FILES, BUILD_FILES)
+                }
+            }
         }
     }
 }
@@ -52,10 +75,9 @@ fun Detekt.setupCommonDetektSettings() {
     baseline.set(project.file("${project.rootDir}/config/detekt/detekt-baseline.xml"))
 
     source(project.file(project.projectDir))
-    include("**/*.kt")
-    include("**/*.kts")
-    exclude("**/resources/**")
-    exclude("**/build/**")
+
+    include(KOTLIN_FILES, KOTLIN_SCRIPTS)
+    exclude(RES_FILES, BUILD_FILES)
 
     // reports configuration
     reports {

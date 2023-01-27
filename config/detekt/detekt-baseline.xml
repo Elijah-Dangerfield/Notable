@@ -1,0 +1,211 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CommentSpacing:build.gradle.kts:14</ID>
+    <ID>CommentSpacing:build.gradle.kts:16</ID>
+    <ID>EmptyClassBlock:NotableApp.kt$NotableApp${ }</ID>
+    <ID>EmptyFunctionBlock:DefaultRadioButton.kt${ }</ID>
+    <ID>EmptyKtFile:AndroidClientInfo.kt$.AndroidClientInfo.kt</ID>
+    <ID>EmptyKtFile:AppinviteService.kt$.AppinviteService.kt</ID>
+    <ID>EmptyKtFile:Client.kt$.Client.kt</ID>
+    <ID>EmptyKtFile:ClientInfo.kt$.ClientInfo.kt</ID>
+    <ID>EmptyKtFile:GoogleServices.kt$.GoogleServices.kt</ID>
+    <ID>EmptyKtFile:IosInfo.kt$.IosInfo.kt</ID>
+    <ID>EmptyKtFile:OauthClient.kt$.OauthClient.kt</ID>
+    <ID>EmptyKtFile:OtherPlatformOauthClient.kt$.OtherPlatformOauthClient.kt</ID>
+    <ID>EmptyKtFile:ProjectInfo.kt$.ProjectInfo.kt</ID>
+    <ID>EmptyKtFile:Services.kt$.Services.kt</ID>
+    <ID>FinalNewline:settings.gradle.kts:1</ID>
+    <ID>FunctionNaming:DefaultRadioButton.kt$@Composable fun DefaultRadioButton( text: String, checked: Boolean, onCheck: () -&gt; Unit, modifier: Modifier )</ID>
+    <ID>FunctionNaming:Theme.kt$@Composable fun NotableTheme(darkTheme: Boolean = true, content: @Composable() () -&gt; Unit)</ID>
+    <ID>ImportOrdering:com.dangerfield.core.notes.NoteExt.kt:3</ID>
+    <ID>ImportOrdering:com.dangerfield.core.notes.OfflineFirstNoteRepository.kt:3</ID>
+    <ID>ImportOrdering:com.dangerfield.notable.ExampleInstrumentedTest.kt:3</ID>
+    <ID>ImportOrdering:com.dangerfield.notable.ExampleUnitTest.kt:3</ID>
+    <ID>ImportOrdering:set_pr_env_variables.main.kts:19</ID>
+    <ID>Indentation:com.dangerfield.core.notes.OfflineFirstNoteRepository.kt:14</ID>
+    <ID>Indentation:com.dangerfield.core.notes.OfflineFirstNoteRepository.kt:15</ID>
+    <ID>Indentation:com.dangerfield.core.notes.OfflineFirstNoteRepository.kt:16</ID>
+    <ID>Indentation:com.dangerfield.core.notes.OfflineFirstNoteRepository.kt:22</ID>
+    <ID>Indentation:com.dangerfield.core.notes.OfflineFirstNoteRepository.kt:23</ID>
+    <ID>Indentation:com.dangerfield.core.notes.OfflineFirstNoteRepository.kt:24</ID>
+    <ID>Indentation:com.dangerfield.core.notes.OfflineFirstNoteRepository.kt:25</ID>
+    <ID>Indentation:com.dangerfield.core.notes.OfflineFirstNoteRepository.kt:26</ID>
+    <ID>Indentation:com.notable.convention.shared.GitHooksCheck.kt:16</ID>
+    <ID>Indentation:com.notable.convention.shared.GitHooksCheck.kt:17</ID>
+    <ID>Indentation:com.notable.convention.shared.GitHooksCheck.kt:18</ID>
+    <ID>Indentation:com.notable.convention.shared.KotlinAndroidExt.kt:89</ID>
+    <ID>Indentation:create_module.main.kts:163</ID>
+    <ID>Indentation:create_module.main.kts:62</ID>
+    <ID>Indentation:create_module.main.kts:66</ID>
+    <ID>Indentation:create_pr_assets.main.kts:44</ID>
+    <ID>Indentation:set_pr_env_variables.main.kts:123</ID>
+    <ID>Indentation:set_pr_env_variables.main.kts:49</ID>
+    <ID>Indentation:set_version_code.main.kts:30</ID>
+    <ID>Indentation:set_version_code.main.kts:59</ID>
+    <ID>Indentation:set_version_name.main.kts:27</ID>
+    <ID>Indentation:set_version_name.main.kts:61</ID>
+    <ID>Indentation:sign_app.main.kts:126</ID>
+    <ID>Indentation:sign_app.main.kts:161</ID>
+    <ID>Indentation:sign_app.main.kts:198</ID>
+    <ID>Indentation:sign_app.main.kts:43</ID>
+    <ID>Indentation:update_pr_comment.main.kts:100</ID>
+    <ID>Indentation:update_pr_comment.main.kts:41</ID>
+    <ID>Indentation:update_pr_comment.main.kts:89</ID>
+    <ID>Indentation:update_pr_comment.main.kts:93</ID>
+    <ID>Indentation:update_release_draft.main.kts:39</ID>
+    <ID>Indentation:validate_release_inputs.main.kts:21</ID>
+    <ID>Indentation:validate_release_inputs.main.kts:44</ID>
+    <ID>InvalidPackageDeclaration:DefaultRadioButton.kt$package com.dangerfield.noteslist</ID>
+    <ID>InvalidPackageDeclaration:FirebaseConstants.kt$package com.dangerfield.core.notes.remote</ID>
+    <ID>InvalidPackageDeclaration:FirebaseNotesDataSource.kt$package com.dangerfield.core.notes.remote</ID>
+    <ID>InvalidPackageDeclaration:LocalNoteEntity.kt$package com.dangerfield.core.notes.local</ID>
+    <ID>InvalidPackageDeclaration:NotableDatabase.kt$package com.dangerfield.core.notes.local</ID>
+    <ID>InvalidPackageDeclaration:Note.kt$package com.dangerfield.core.notesapi</ID>
+    <ID>InvalidPackageDeclaration:NoteExt.kt$package com.dangerfield.core.notes</ID>
+    <ID>InvalidPackageDeclaration:NoteOperationStatus.kt$package com.dangerfield.core.notes.local</ID>
+    <ID>InvalidPackageDeclaration:NoteRepository.kt$package com.dangerfield.core.notesapi</ID>
+    <ID>InvalidPackageDeclaration:NotesConflictResolver.kt$package com.dangerfield.core.notes</ID>
+    <ID>InvalidPackageDeclaration:NotesDao.kt$package com.dangerfield.core.notes.local</ID>
+    <ID>InvalidPackageDeclaration:NotesListViewModel.kt$package com.dangerfield.noteslist</ID>
+    <ID>InvalidPackageDeclaration:NotesRemoteDataSource.kt$package com.dangerfield.core.notes.remote</ID>
+    <ID>InvalidPackageDeclaration:OfflineFirstNoteRepository.kt$package com.dangerfield.core.notes</ID>
+    <ID>InvalidPackageDeclaration:RemoteNoteEntity.kt$package com.dangerfield.core.notes.remote</ID>
+    <ID>MagicNumber:Color.kt$0xFF202020</ID>
+    <ID>MagicNumber:Color.kt$0xFFD7E8DE</ID>
+    <ID>MagicNumber:Color.kt$0xff81deea</ID>
+    <ID>MagicNumber:Color.kt$0xffcf94da</ID>
+    <ID>MagicNumber:Color.kt$0xffe7ed9b</ID>
+    <ID>MagicNumber:Color.kt$0xfff48fb1</ID>
+    <ID>MagicNumber:Color.kt$0xffffab91</ID>
+    <ID>MagicNumber:NotesListViewModel.kt$NotesListViewModel$5_000</ID>
+    <ID>NewLineAtEndOfFile:settings.gradle.kts$.settings.gradle.kts</ID>
+    <ID>NoBlankLineBeforeRbrace:AndroidApplicationComposeConventionPlugin.kt:15</ID>
+    <ID>NoBlankLineBeforeRbrace:AndroidLibraryConventionPlugin.kt:24</ID>
+    <ID>NoBlankLineBeforeRbrace:AndroidTestConventionPlugin.kt:22</ID>
+    <ID>NoBlankLineBeforeRbrace:com.dangerfield.core.notes.local.NotableDatabase.kt:15</ID>
+    <ID>NoBlankLineBeforeRbrace:com.dangerfield.notable.MainActivity.kt:20</ID>
+    <ID>NoBlankLineBeforeRbrace:com.dangerfield.notable.NotableApp.kt:8</ID>
+    <ID>NoBlankLineBeforeRbrace:com.dangerfield.noteslist.DefaultRadioButton.kt:13</ID>
+    <ID>NoConsecutiveBlankLines:build.gradle.kts:34</ID>
+    <ID>NoConsecutiveBlankLines:build.gradle.kts:62</ID>
+    <ID>NoConsecutiveBlankLines:com.dangerfield.core.notes.NoteExt.kt:27</ID>
+    <ID>NoConsecutiveBlankLines:com.dangerfield.core.notes.NoteExt.kt:46</ID>
+    <ID>NoConsecutiveBlankLines:com.dangerfield.core.notes.OfflineFirstNoteRepository.kt:80</ID>
+    <ID>NoConsecutiveBlankLines:com.dangerfield.core.notes.local.LocalNoteEntity.kt:17</ID>
+    <ID>NoConsecutiveBlankLines:com.dangerfield.core.notes.local.NotableDatabase.kt:6</ID>
+    <ID>NoConsecutiveBlankLines:com.dangerfield.core.notes.local.NoteOperationStatus.kt:3</ID>
+    <ID>NoConsecutiveBlankLines:com.dangerfield.core.notes.remote.NotesRemoteDataSource.kt:14</ID>
+    <ID>NoConsecutiveBlankLines:com.dangerfield.notable.NotableApp.kt:9</ID>
+    <ID>NoConsecutiveBlankLines:com.dangerfield.notable.theme.Shape.kt:7</ID>
+    <ID>NoConsecutiveBlankLines:com.dangerfield.noteslist.NotesListViewModel.kt:22</ID>
+    <ID>NoConsecutiveBlankLines:com.notable.convention.shared.Modules.kt:13</ID>
+    <ID>NoConsecutiveBlankLines:create_module.main.kts:25</ID>
+    <ID>NoConsecutiveBlankLines:create_module.main.kts:88</ID>
+    <ID>NoConsecutiveBlankLines:create_pr_assets.main.kts:140</ID>
+    <ID>NoConsecutiveBlankLines:set_pr_env_variables.main.kts:99</ID>
+    <ID>NoConsecutiveBlankLines:set_version_code.main.kts:46</ID>
+    <ID>NoConsecutiveBlankLines:set_version_name.main.kts:68</ID>
+    <ID>NoConsecutiveBlankLines:sign_app.main.kts:190</ID>
+    <ID>NoConsecutiveBlankLines:validate_release_inputs.main.kts:27</ID>
+    <ID>NoEmptyClassBody:com.dangerfield.notable.NotableApp.kt:7</ID>
+    <ID>NoMultipleSpaces:create_module.main.kts:102</ID>
+    <ID>NoMultipleSpaces:create_module.main.kts:91</ID>
+    <ID>NoMultipleSpaces:sign_app.main.kts:74</ID>
+    <ID>NoUnusedImports:AndroidApplicationConventionPlugin.kt:9</ID>
+    <ID>NoUnusedImports:AndroidCheckstyleConventionPlugin.kt:1</ID>
+    <ID>NoUnusedImports:build.gradle.kts:1</ID>
+    <ID>NoUnusedImports:com.dangerfield.core.notes.local.NotesDao.kt:4</ID>
+    <ID>NoUnusedImports:com.dangerfield.core.notes.remote.FirebaseNotesDataSource.kt:6</ID>
+    <ID>NoUnusedImports:com.dangerfield.notable.MainActivity.kt:6</ID>
+    <ID>NoUnusedImports:com.notable.convention.shared.KotlinAndroidExt.kt:13</ID>
+    <ID>NoUnusedImports:com.notable.convention.shared.KotlinAndroidExt.kt:14</ID>
+    <ID>NoUnusedImports:com.notable.convention.shared.KotlinAndroidExt.kt:4</ID>
+    <ID>NoUnusedImports:create_module.main.kts:10</ID>
+    <ID>NoUnusedImports:create_module.main.kts:8</ID>
+    <ID>NoUnusedImports:create_module.main.kts:9</ID>
+    <ID>NoUnusedImports:create_pr_assets.main.kts:7</ID>
+    <ID>NoUnusedImports:featurebuild.gradle.kts:1</ID>
+    <ID>NoUnusedImports:set_pr_env_variables.main.kts:24</ID>
+    <ID>NoUnusedImports:set_version_code.main.kts:5</ID>
+    <ID>NoUnusedImports:sign_app.main.kts:5</ID>
+    <ID>NoUnusedImports:sign_app.main.kts:6</ID>
+    <ID>NoUnusedImports:sign_app.main.kts:7</ID>
+    <ID>NoUnusedImports:sign_app.main.kts:8</ID>
+    <ID>NoUnusedImports:update_pr_comment.main.kts:9</ID>
+    <ID>NoWildcardImports:com.dangerfield.notable.ExampleInstrumentedTest.kt:9</ID>
+    <ID>NoWildcardImports:com.dangerfield.notable.ExampleUnitTest.kt:5</ID>
+    <ID>SpacingAroundColon:com.dangerfield.core.notes.NotesConflictResolver.kt:16</ID>
+    <ID>SpacingAroundColon:com.dangerfield.core.notes.OfflineFirstNoteRepository.kt:17</ID>
+    <ID>SpacingAroundColon:com.dangerfield.core.notes.remote.FirebaseNotesDataSource.kt:13</ID>
+    <ID>SpacingAroundColon:sign_app.main.kts:142</ID>
+    <ID>SpacingAroundColon:sign_app.main.kts:171</ID>
+    <ID>SpacingAroundColon:sign_app.main.kts:95</ID>
+    <ID>SpacingAroundColon:validate_release_inputs.main.kts:30</ID>
+    <ID>SpacingAroundComma:AndroidFeatureConventionPlugin.kt:19</ID>
+    <ID>SpacingAroundComma:AndroidFeatureConventionPlugin.kt:20</ID>
+    <ID>SpacingAroundComma:AndroidFeatureConventionPlugin.kt:21</ID>
+    <ID>SpacingAroundComma:AndroidFeatureConventionPlugin.kt:22</ID>
+    <ID>SpacingAroundComma:AndroidFeatureConventionPlugin.kt:23</ID>
+    <ID>SpacingAroundComma:AndroidFeatureConventionPlugin.kt:24</ID>
+    <ID>SpacingAroundComma:create_module.main.kts:90</ID>
+    <ID>SpacingAroundComma:create_pr_assets.main.kts:171</ID>
+    <ID>SpacingAroundKeyword:sign_app.main.kts:82</ID>
+    <ID>SpacingAroundOperators:com.dangerfield.core.notes.NoteExt.kt:10</ID>
+    <ID>SpacingAroundOperators:com.dangerfield.core.notes.NoteExt.kt:11</ID>
+    <ID>SpacingAroundOperators:com.dangerfield.core.notes.NoteExt.kt:12</ID>
+    <ID>SpacingAroundOperators:com.dangerfield.core.notes.NoteExt.kt:13</ID>
+    <ID>SpacingAroundOperators:com.dangerfield.core.notes.NoteExt.kt:19</ID>
+    <ID>SpacingAroundOperators:com.dangerfield.core.notes.NoteExt.kt:20</ID>
+    <ID>SpacingAroundOperators:com.dangerfield.core.notes.NoteExt.kt:21</ID>
+    <ID>SpacingAroundOperators:com.dangerfield.core.notes.NoteExt.kt:22</ID>
+    <ID>SpacingAroundOperators:com.dangerfield.core.notes.NoteExt.kt:30</ID>
+    <ID>SpacingAroundOperators:com.dangerfield.core.notes.NoteExt.kt:31</ID>
+    <ID>SpacingAroundOperators:com.dangerfield.core.notes.NoteExt.kt:32</ID>
+    <ID>SpacingAroundOperators:com.dangerfield.core.notes.NoteExt.kt:33</ID>
+    <ID>SpacingAroundOperators:com.dangerfield.core.notes.NoteExt.kt:39</ID>
+    <ID>SpacingAroundOperators:com.dangerfield.core.notes.NoteExt.kt:40</ID>
+    <ID>SpacingAroundOperators:com.dangerfield.core.notes.NoteExt.kt:41</ID>
+    <ID>SpacingAroundOperators:com.dangerfield.core.notes.NoteExt.kt:42</ID>
+    <ID>SpacingAroundParens:com.dangerfield.core.notes.local.NotesDao.kt:22</ID>
+    <ID>SpacingAroundParens:sign_app.main.kts:222</ID>
+    <ID>SpacingAroundParens:sign_app.main.kts:82</ID>
+    <ID>TooManyFunctions:NotesListViewModel.kt$NotesListViewModel : ViewModel</ID>
+    <ID>UnusedPrivateMember:AndroidLibraryConventionPlugin.kt$AndroidLibraryConventionPlugin$val libs = extensions.getByType&lt;VersionCatalogsExtension&gt;().named("libs")</ID>
+    <ID>UnusedPrivateMember:DefaultRadioButton.kt$checked: Boolean</ID>
+    <ID>UnusedPrivateMember:DefaultRadioButton.kt$modifier: Modifier</ID>
+    <ID>UnusedPrivateMember:DefaultRadioButton.kt$onCheck: () -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:DefaultRadioButton.kt$text: String</ID>
+    <ID>UnusedPrivateMember:NotesConflictResolver.kt$NotesConflictResolver$localNotes: List&lt;LocalNoteEntity&gt;</ID>
+    <ID>UnusedPrivateMember:NotesConflictResolver.kt$NotesConflictResolver$pendingCreates: List&lt;LocalNoteEntity&gt;</ID>
+    <ID>UnusedPrivateMember:NotesConflictResolver.kt$NotesConflictResolver$pendingDeletes: List&lt;LocalNoteEntity&gt;</ID>
+    <ID>UnusedPrivateMember:NotesConflictResolver.kt$NotesConflictResolver$pendingUpdates: List&lt;LocalNoteEntity&gt;</ID>
+    <ID>UnusedPrivateMember:Theme.kt$darkTheme: Boolean = true</ID>
+    <ID>Wrapping:com.notable.convention.shared.KotlinAndroidExt.kt:77</ID>
+    <ID>Wrapping:com.notable.convention.shared.KotlinAndroidExt.kt:89</ID>
+    <ID>Wrapping:com.notable.convention.shared.ProjectExts.kt:102</ID>
+    <ID>Wrapping:create_module.main.kts:41</ID>
+    <ID>Wrapping:create_module.main.kts:44</ID>
+    <ID>Wrapping:create_module.main.kts:62</ID>
+    <ID>Wrapping:create_module.main.kts:66</ID>
+    <ID>Wrapping:set_version_code.main.kts:24</ID>
+    <ID>Wrapping:set_version_code.main.kts:30</ID>
+    <ID>Wrapping:set_version_code.main.kts:49</ID>
+    <ID>Wrapping:set_version_code.main.kts:59</ID>
+    <ID>Wrapping:set_version_name.main.kts:22</ID>
+    <ID>Wrapping:set_version_name.main.kts:27</ID>
+    <ID>Wrapping:set_version_name.main.kts:51</ID>
+    <ID>Wrapping:set_version_name.main.kts:61</ID>
+    <ID>Wrapping:sign_app.main.kts:123</ID>
+    <ID>Wrapping:sign_app.main.kts:126</ID>
+    <ID>Wrapping:sign_app.main.kts:158</ID>
+    <ID>Wrapping:sign_app.main.kts:161</ID>
+    <ID>Wrapping:update_pr_comment.main.kts:89</ID>
+    <ID>Wrapping:update_pr_comment.main.kts:93</ID>
+    <ID>Wrapping:validate_release_inputs.main.kts:16</ID>
+    <ID>Wrapping:validate_release_inputs.main.kts:21</ID>
+    <ID>Wrapping:validate_release_inputs.main.kts:41</ID>
+    <ID>Wrapping:validate_release_inputs.main.kts:44</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -4,7 +4,6 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
-import java.util.Base64
 import java.util.Properties
 
 val red = "\u001b[31m"
@@ -41,7 +40,7 @@ if (isHelpCall || args.size < argCount) {
                 <signingKey> - signing key
                
                 
-    """.trimIndent()
+        """.trimIndent()
     )
 
     @Suppress("TooGenericExceptionThrown")
@@ -137,7 +136,6 @@ fun getAppVersionCode(): String {
     return properties.getProperty("versionCode").toString()
 }
 
-
 fun setOutputAssetName(defaultPath: String, name: String, outputName: String, envFile: File) {
     val apkFile = File(defaultPath)
     val renamedFile = File(apkFile.parent, name)
@@ -168,7 +166,7 @@ fun findAabFile(parentDirectoryPath: String): String {
         ?.absolutePath ?: throw Exception("No aab file found in directory $parentDirectoryPath")
 }
 
-fun runGradleCommand(command: String) = runCommandLine("./gradlew",command)
+fun runGradleCommand(command: String) = runCommandLine("./gradlew", command)
 
 @Suppress("SpreadOperator")
 fun runCommandLine(command: String) = runCommandLine(command.split("\\s".toRegex()).toTypedArray().toList())

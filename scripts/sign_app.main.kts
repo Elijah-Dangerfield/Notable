@@ -2,10 +2,6 @@
 
 import java.io.File
 import java.io.FileWriter
-import java.security.KeyStore
-import java.security.PrivateKey
-import java.security.cert.X509Certificate
-import java.util.Base64
 
 val red = "\u001b[31m"
 val green = "\u001b[32m"
@@ -40,7 +36,7 @@ if (isHelpCall) {
         [outputFileName] - the name of the resulting signed asset
         [outputKey*] - OPTIONAL, if using env output the key in the key value pairing for output to the ENV file
         [envFile*] - OPTIONAL. the env file to output the final path to the signed apk. 
-    """.trimIndent()
+        """.trimIndent()
     )
 
     @Suppress("TooGenericExceptionThrown")
@@ -71,7 +67,7 @@ fun main() {
 
     val keystoreFile = File(keyStorePath)
 
-    val assetFile = File(assetPath).also { if (!it.isFile) throw  FileDoesNotExistError(it.absolutePath) }
+    val assetFile = File(assetPath).also { if (!it.isFile) throw FileDoesNotExistError(it.absolutePath) }
 
     val signedFilePath = when (assetFile.extension) {
         "apk" -> signApk(keystoreFile, storePassword, keyAlias, keyPassword, assetFile, outputFileName)
@@ -79,7 +75,7 @@ fun main() {
         else -> throw FileExtensionError(assetFile.extension)
     }
 
-    if( outputKeyName != null && envFile != null) {
+    if (outputKeyName != null && envFile != null) {
         writePathToEnv(signedFilePath, outputKeyName, envFile)
     }
 }
@@ -92,7 +88,7 @@ fun signApk(
     keyPassword: String,
     inputFile: File,
     outputFileName: String
-) : String {
+): String {
 
     val outputFile = File(inputFile.parent, outputFileName)
 
@@ -120,10 +116,12 @@ fun signApk(
     val output = runCommandLine(command)
 
     if (output.contains("Error") || output.contains("Exception")) {
-        printRed("""
+        printRed(
+            """
             README: The signing of the APK did not succeed. 
             $output
-        """.trimIndent())
+            """.trimIndent()
+        )
     } else {
         printGreen("APK Signed. You will find it under ${inputFile.parent}")
     }
@@ -139,7 +137,7 @@ fun signAab(
     keyPassword: String,
     inputFile: File,
     outputFileName: String
-) : String {
+): String {
 
     printGreen("Signing AAB")
 
@@ -155,10 +153,12 @@ fun signAab(
     val output = runCommandLine(command)
 
     if (output.contains("Error") || output.contains("Exception")) {
-        printRed("""
+        printRed(
+            """
             README: The signing of the AAB did not succeed. 
             $output
-        """.trimIndent())
+            """.trimIndent()
+        )
     } else {
         printGreen("AAB Signed. You will find it under ${inputFile.parent}")
     }
@@ -168,7 +168,7 @@ fun signAab(
     return renamedFile.path
 }
 
-fun getBuildToolsPath() : String {
+fun getBuildToolsPath(): String {
     if (System.getenv("ANDROID_HOME").isEmpty()) {
         installAndroidTools()
     }
@@ -187,7 +187,6 @@ fun getBuildToolsPath() : String {
     return "$androidHome/build-tools/$buildToolVersion"
 }
 
-
 fun installAndroidTools() = when {
     runCatching { runCommandLine("apt-get") }.isSuccess -> "apt-get -y install android-sdk-build-tools"
     runCatching { runCommandLine("yum") }.isSuccess -> "yum install android-tools"
@@ -195,7 +194,7 @@ fun installAndroidTools() = when {
     else -> throw IllegalStateException(
         """
         No package manager could be found on this system to install android tools
-    """.trimIndent()
+        """.trimIndent()
     )
 }.let { command -> runCommandLine(command) }
 
@@ -219,7 +218,7 @@ fun runCommandLine(command: List<String>): String {
     val error = process.errorStream.bufferedReader().readText()
 
     if (error.isNotEmpty()) {
-        printRed ("\n\n$error\n\n")
+        printRed("\n\n$error\n\n")
         if (error.contains("Error:") || error.contains("error:")) {
             throw IllegalStateException(error)
         }

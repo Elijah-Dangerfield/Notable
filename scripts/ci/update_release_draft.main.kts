@@ -36,7 +36,7 @@ if (isHelpCall || args.size < minArgs) {
         [BODY] - The file path to the release notes
         [Asset Paths] - comma separated list of assets to upload to release draft "example1.apk, example2.apk"
        
-    """.trimIndent()
+        """.trimIndent()
     )
 
     @Suppress("TooGenericExceptionThrown")

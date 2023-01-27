@@ -21,7 +21,6 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             }
 
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
-
         }
     }
 }

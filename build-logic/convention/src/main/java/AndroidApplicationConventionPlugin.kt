@@ -6,7 +6,6 @@ import com.notable.convention.shared.configureGitHooksCheck
 import com.notable.convention.shared.configureKotlinAndroid
 import com.notable.convention.shared.getVersionCode
 import com.notable.convention.shared.getVersionName
-import com.notable.convention.shared.loadAppProperty
 import com.notable.convention.shared.loadGradleProperty
 import com.notable.convention.shared.printDebugSigningWarningIfNeeded
 import org.gradle.api.Plugin

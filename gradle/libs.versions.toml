@@ -6,13 +6,22 @@ androidDesugarJdkLibs = "1.2.0"
 androidxCoreSplashscreen = "1.0.0"
 hilt = "2.44.1"
 coroutines = "1.6.4"
+androidxComposeBom = "2022.10.00"
+androidxComposeCompiler = "1.3.2"
+androidxComposeRuntimeTracing = "1.0.0-alpha01"
+androidxActivity = "1.6.1"
+room = "2.4.3"
+androidxNavigation = "2.5.3"
+androidxHiltNavigationCompose = "1.0.0"
+androidxWindowManager = "1.0.0"
+androidxLifecycle = "2.6.0-alpha03"
 
 #plugins
 detekt = "1.21.0"
 
 [libraries]
 # AndroidX
-androidx-appcompat = "androidx.appcompat:appcompat:1.6.0-alpha05"
+androidx-appcompat = "androidx.appcompat:appcompat:1.5.0-beta01"
 androidx-core = "androidx.core:core-ktx:1.9.0-alpha05"
 androidx-constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.4"
 androidx-legacy-support = "androidx.legacy:legacy-support-v4:1.0.0"
@@ -21,6 +30,30 @@ androidx-lifecycle-vm = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0-alpha0
 androidx-recyclerview = "androidx.recyclerview:recyclerview:1.3.0-beta01"
 androidx-test-junit = "androidx.test.ext:junit-ktx:1.1.3"
 androidx-test-core = "androidx.test:core-ktx:1.4.0"
+
+# compose
+androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
+androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout" }
+androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-material = "androidx.compose.material:material:1.1.1"
+androidx-compose-material3-windowSizeClass = {group = "androidx.compose.material3", name = "material3-window-size-class" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
+androidx-lifecycle-runtimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
+androidx-compose-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata" }
+androidx-compose-runtime-tracing = { group = "androidx.compose.runtime", name = "runtime-tracing", version.ref = "androidxComposeRuntimeTracing" }
+androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
+androidx-window-manager = {module = "androidx.window:window", version.ref = "androidxWindowManager"}
+
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling"}
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"}
+
 androidx-test-arch-core = "androidx.arch.core:core-testing:2.1.0"
 androidx-test-espresso-core = "androidx.test.espresso:espresso-core:3.5.0-alpha07"
 androidx-test-runner = "androidx.test:runner:1.5.0-alpha04"
@@ -34,34 +67,33 @@ androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref
 kotlin-std = "org.jetbrains.kotlin:kotlin-stdlib:1.0.0"
 
 arch-fragment-navigation = "android.arch.navigation:navigation-fragment:1.0.0"
-arch-navigation-ui = "android.arch.navigation:navigation-ui:1.0.0"
 
 google-play-services-ads = "com.google.android.gms:play-services-ads:21.0.0"
 google-services = "com.google.gms:google-services:4.3.14"
 
-koin-core = "io.insert-koin:koin-core:3.1.6"
-koin-android = "io.insert-koin:koin-android:3.1.6"
-koin-testing = "io.insert-koin:koin-test:3.1.6"
-koin-junit = "io.insert-koin:koin-test-junit4:3.1.6"
+#room
+room = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room"}
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
+#hilt
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-gradle = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+hilt-compose-navigation = "androidx.hilt:hilt-navigation-compose:1.0.0"
 
 javax-inject = { module = "javax.inject:javax.inject", version = "1" }
 
 #Firebase
-firebase-database = "com.google.firebase:firebase-database:20.0.5"
-firebase-firestore = "com.google.firebase:firebase-firestore:24.2.0"
-firebase-storage = "com.google.firebase:firebase-storage:20.0.1"
-firebase-crashlytics = "com.google.firebase:firebase-crashlytics-gradle:2.9.2"
+firebase-bom = "com.google.firebase:firebase-bom:31.1.1"
+firebase-auth = { module = "com.google.firebase:firebase-auth-kts" }
+firebase-database = { module = "com.google.firebase:firebase-database" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
+firebase-storage = { module = "com.google.firebase:firebase-storage"}
 
 #Testing
 junit = "junit:junit:4.13.2"
-roboelectric = "org.robolectric:robolectric:4.6.1"
-mockito = "org.mockito:mockito-core:3.9.0"
-mockito-kotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
 google-truth = "com.google.truth:truth:1.1.3"
 
 # KotlinX Coroutines
@@ -69,9 +101,6 @@ kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-cor
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-rx3 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-rx3", version.ref = "coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
-
-#UI
-lottie = "com.airbnb.android:lottie:3.7.0"
 
 # Lint
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
