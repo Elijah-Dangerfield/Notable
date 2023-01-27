@@ -21,7 +21,7 @@ detekt = "1.21.0"
 
 [libraries]
 # AndroidX
-androidx-appcompat = "androidx.appcompat:appcompat:1.6.0-alpha05"
+androidx-appcompat = "androidx.appcompat:appcompat:1.5.0-beta01"
 androidx-core = "androidx.core:core-ktx:1.9.0-alpha05"
 androidx-constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.4"
 androidx-legacy-support = "androidx.legacy:legacy-support-v4:1.0.0"
@@ -34,8 +34,6 @@ androidx-test-core = "androidx.test:core-ktx:1.4.0"
 # compose
 androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
@@ -52,6 +50,9 @@ androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navig
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
 androidx-window-manager = {module = "androidx.window:window", version.ref = "androidxWindowManager"}
+
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling"}
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"}
 
 androidx-test-arch-core = "androidx.arch.core:core-testing:2.1.0"
 androidx-test-espresso-core = "androidx.test.espresso:espresso-core:3.5.0-alpha07"
@@ -72,6 +73,7 @@ google-services = "com.google.gms:google-services:4.3.14"
 
 #room
 room = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room"}
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 #hilt
@@ -79,6 +81,7 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt"
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-gradle = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+hilt-compose-navigation = "androidx.hilt:hilt-navigation-compose:1.0.0"
 
 javax-inject = { module = "javax.inject:javax.inject", version = "1" }
 

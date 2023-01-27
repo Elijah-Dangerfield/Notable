@@ -19,12 +19,14 @@ fun printGreen(text: String) {
 }
 
 if (args.size < 2 || args[0] == "-h" || args[0].contains("help")) {
-    printRed("""
+    printRed(
+        """
         This script sets the version name for the application  
         
         Usage: ./set_version_name.main.kts [versionName] 
         versionName: "1.2.4", "1.5.19", ...
-    """.trimIndent())
+        """.trimIndent()
+    )
 
     @Suppress("TooGenericExceptionThrown")
     throw Exception("See Message Above")
@@ -48,7 +50,8 @@ properties.setProperty("versionName", newVersionName)
 
 // Save the .properties file
 val writer = BufferedWriter(FileWriter("app.properties"))
-writer.write("""
+writer.write(
+    """
     # These properties are referenced in: \n
     # AndroidApplicationConventionPlugin.kt  \n
     # .github/workflows/create-release..
@@ -58,10 +61,10 @@ writer.write("""
     # version name
     # The version name is set by the set_version_name script which is triggered by a github action
     
-""".trimIndent())
+    """.trimIndent()
+)
 writer.newLine()
 properties.store(writer, null)
 writer.close()
 
 printGreen("Notable version name successfully set to $newVersionName")
-

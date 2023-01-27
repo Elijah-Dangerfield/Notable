@@ -21,7 +21,6 @@ import java.io.File
 import java.io.FileReader
 import java.io.OutputStreamWriter
 import java.util.Properties
-import com.google.gson.Gson
 
 val red = "\u001b[31m"
 val green = "\u001b[32m"
@@ -46,7 +45,7 @@ if (args.size < 2 || args[0] == "-h" || args[0] == "--help" || args[0].contains(
         [env_file] - env file used to store output of this script 
         [pull_number] - the number of the pull request that triggered this 
         
-    """.trimIndent()
+        """.trimIndent()
     )
 
     @Suppress("TooGenericExceptionThrown")
@@ -96,7 +95,6 @@ fun setReleaseNotes(writer: OutputStreamWriter, pullNumber: String) {
     writer.writeEnvValue("releaseNotesFile", releaseNotesFile.path)
 }
 
-
 @Suppress("UseCheckOrError", "ThrowsCount")
 fun setReleaseVariables(writer: OutputStreamWriter, branchName: String) {
     // matches "release-words-dashes_underscores-and-num6ers/vx.y.z
@@ -120,7 +118,7 @@ fun setReleaseVariables(writer: OutputStreamWriter, branchName: String) {
         throw IllegalStateException(
             """
             Branch name lists version as $branchVersion which does not contain the apps version $appVersionName.
-        """.trimIndent()
+            """.trimIndent()
         )
     }
 

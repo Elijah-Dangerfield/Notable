@@ -1,14 +1,13 @@
-import com.notable.convention.shared.getModule
-
 plugins {
-    id("notable.android.feature")
+    id("notable.android.library")
 }
 
 android {
-    namespace = "com.dangerfield.example"
+    namespace = "com.dangerfield.core.navigation"
 }
 
 dependencies {
+    implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit)
     testImplementation(libs.androidx.test.junit)
     testImplementation(libs.androidx.test.core)

@@ -50,17 +50,14 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.core.splashscreen)
 
-    // firebase libraries
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.database)
-    implementation(libs.firebase.firestore)
-    implementation(libs.firebase.storage)
-
     implementation(libs.kotlinx.coroutines)
     implementation(libs.kotlinx.coroutines.play.services)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+
+    kapt(libs.room.compiler)
+    implementation(libs.room)
 
     implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.lifecycle.runtimeCompose)
@@ -74,10 +71,20 @@ dependencies {
     implementation(libs.androidx.window.manager)
 
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.runner)
-    androidTestImplementation(libs.androidx.test.espresso.core)
     testImplementation(libs.androidx.test.junit)
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.androidx.test.arch.core)
     testImplementation(libs.kotlinx.coroutines.test)
+
+    implementation(libs.firebase.firestore)
+
+    implementation(project(":core:notesApi"))
+    implementation(project(":core:notes"))
+    implementation(project(":core:navigation"))
+    implementation(project(":core:notes:local"))
+    implementation(project(":core:notes:remote"))
+    implementation(project(":core:common"))
+    implementation(project(":core:ui"))
+    implementation(project(":features:notesList"))
+    implementation(project(":features:editNote"))
 }

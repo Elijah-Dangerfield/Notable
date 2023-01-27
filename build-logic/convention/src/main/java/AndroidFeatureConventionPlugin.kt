@@ -16,12 +16,12 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
 
             // Libraries Shared Between All Features
             dependencies {
-                add("implementation",libs.findLibrary("androidx.core").get())
-                add("implementation",libs.findLibrary("androidx.lifecycle.ext").get())
-                add("implementation",libs.findLibrary("androidx.lifecycle.vm").get())
-                add("implementation",libs.findLibrary("androidx.fragment.ktx").get())
-                add("implementation",libs.findLibrary("androidx.constraintlayout").get())
-                add("implementation",libs.findLibrary("androidx.appcompat").get())
+                add("implementation", libs.findLibrary("androidx.core").get())
+                add("implementation", libs.findLibrary("androidx.lifecycle.ext").get())
+                add("implementation", libs.findLibrary("androidx.lifecycle.vm").get())
+                add("implementation", libs.findLibrary("androidx.fragment.ktx").get())
+                add("implementation", libs.findLibrary("androidx.constraintlayout").get())
+                add("implementation", libs.findLibrary("androidx.appcompat").get())
             }
         }
     }

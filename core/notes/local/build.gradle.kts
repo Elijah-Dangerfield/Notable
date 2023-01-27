@@ -9,7 +9,7 @@ android {
 }
 
 dependencies {
-    implementation(libs.room)
+    implementation(libs.room.ktx)
     kapt(libs.room.compiler)
     implementation(libs.kotlinx.coroutines)
 

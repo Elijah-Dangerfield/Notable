@@ -5,9 +5,6 @@ import java.io.BufferedWriter
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.nio.file.StandardCopyOption
 import java.util.regex.Pattern
 
 val red = "\u001b[31m"
@@ -21,7 +18,6 @@ fun printRed(text: String) {
 fun printGreen(text: String) {
     println(green + text + reset)
 }
-
 
 fun main() {
 
@@ -38,10 +34,12 @@ fun main() {
     }
 
     val moduleNameLine = args.getOrNull(1) ?: run {
-        print("""
+        print(
+            """
             Enter the module name in camelCase. 
             If this module is a sub module enter the name in the form "parentModule:subModule": 
-            """.trimIndent())
+            """.trimIndent()
+        )
         readLine()!!
     }
 
@@ -59,11 +57,13 @@ fun main() {
 
     updateGradleBuildFile(moduleType, newDir)
 
-   printGreen("""
+    printGreen(
+        """
        Success! 
        The $moduleType module "$moduleName" was created. 
        Please make sure to update the readme.
-   """.trimIndent())
+        """.trimIndent()
+    )
 }
 
 fun updateSettingGradleFile(baseDir: String, moduleName: String, parentModule: String?) {
@@ -85,10 +85,9 @@ fun updateSettingGradleFile(baseDir: String, moduleName: String, parentModule: S
     settingsFile.writeText(settingsLines.joinToString("\n"))
 }
 
-
 fun createPackage(directory: String) {
-    val packageString = directory.replace("/",".").lowercase()
-    val packageName =  "com.dangerfield.$packageString"
+    val packageString = directory.replace("/", ".").lowercase()
+    val packageName = "com.dangerfield.$packageString"
 
     val mainDir = File("$directory/src/main/java/$packageName")
     mainDir.mkdirs()
@@ -98,8 +97,8 @@ fun createPackage(directory: String) {
 }
 
 fun createDirectory(baseDir: String, moduleName: String, parentModule: String?): String {
-    val exampleDir = "example"
-    val newDir =  "$baseDir/${if (parentModule != null) "$parentModule/" else ""}$moduleName"
+    val exampleDir = "scripts/example"
+    val newDir = "$baseDir/${if (parentModule != null) "$parentModule/" else ""}$moduleName"
 
     File(exampleDir).copyRecursively(File(newDir), overwrite = true)
 
@@ -160,7 +159,7 @@ fun checkForHelpCall(): Boolean {
                option module-type - the type of the module to create: "core" or "feature" 
                option module-name - The camelCase name of the module to create
                
-    """.trimIndent()
+            """.trimIndent()
         )
     }
 

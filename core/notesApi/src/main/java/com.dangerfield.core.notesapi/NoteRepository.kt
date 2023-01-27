@@ -10,7 +10,7 @@ interface NoteRepository {
 
     suspend fun updateNote(note: Note): Boolean
 
-    suspend fun deleteNote(note: Note): Boolean
+    suspend fun deleteNote(id: String): Boolean
 
     suspend fun createNote(note: Note): Boolean
 

@@ -10,7 +10,6 @@ import org.gradle.kotlin.dsl.project
 fun DependencyHandler.getModule(name: String, submodule: String? = null) =
     project(":$name${submodule?.let { ":$submodule" } ?: ""}")
 
-
 /**
  * Get the module or submodule as a [Dependency]
  */

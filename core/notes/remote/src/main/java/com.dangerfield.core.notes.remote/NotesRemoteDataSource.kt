@@ -10,4 +10,3 @@ interface NotesRemoteDataSource {
 
     suspend fun getNotes(): List<RemoteNoteEntity>
 }
-

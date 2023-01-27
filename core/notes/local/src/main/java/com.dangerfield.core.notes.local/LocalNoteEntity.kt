@@ -9,8 +9,7 @@ data class LocalNoteEntity(
     val content: String,
     val createdAt: Long,
     val updatedAt: Long,
-    val color: Int? = null,
+    val color: Int,
     val operationStatus: String,
     @PrimaryKey val id: String
 )
-

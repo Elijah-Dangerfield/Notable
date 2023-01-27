@@ -3,8 +3,9 @@ package com.dangerfield.core.notes
 import com.dangerfield.core.notes.local.LocalNoteEntity
 import com.dangerfield.core.notes.remote.RemoteNoteEntity
 import com.dangerfield.core.notesapi.Note
+import javax.inject.Inject
 
-class NotesConflictResolver {
+class NotesConflictResolver @Inject constructor() {
 
     suspend fun resolve(
         localNotes: List<LocalNoteEntity>,
@@ -12,7 +13,7 @@ class NotesConflictResolver {
         pendingDeletes: List<LocalNoteEntity>,
         pendingCreates: List<LocalNoteEntity>,
         remoteNotes: List<RemoteNoteEntity>
-    ) : List<Note> {
+    ): List<Note> {
         /*
         operations: update, delete, create
 

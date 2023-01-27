@@ -99,7 +99,8 @@ fun Project.loadAppProperty(property: String): String = Properties().let {
         throw Error(
             """No app property found named: $property. 
                 Please make sure this property is listed exactly as \"$property\" 
-                in $appPropertiesPath""".trimMargin()
+                in $appPropertiesPath
+            """.trimMargin()
         )
     }
 }

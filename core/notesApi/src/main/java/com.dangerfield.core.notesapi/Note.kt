@@ -5,6 +5,6 @@ data class Note(
     val content: String,
     val createdAt: Long,
     val updatedAt: Long,
-    val color: Int? = null,
+    val color: Int,
     val id: String
 )

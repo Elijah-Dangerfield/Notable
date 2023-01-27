@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title">Title</string>
+    <string name="recently_edited">Recently Edited</string>
+    <string name="color">Color</string>
+    <string name="recently_created">Recently Created</string>
+    <string name="delete_note">Delete note</string>
+    <string name="show_sort_notes">Show Note Sorting Options</string>
+    <string name="your_notes">Your Notes</string>
+    <string name="create_new_note">Create a new note</string>
+
+</resources>

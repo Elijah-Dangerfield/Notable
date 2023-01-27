@@ -1,5 +1,3 @@
-import com.notable.convention.shared.getModule
-
 plugins {
     id("notable.android.feature")
 }
@@ -13,5 +11,5 @@ dependencies {
     testImplementation(libs.androidx.test.junit)
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.google.truth)
-    //implementation(getModule("libraries:coreCommon"))
+    // implementation(getModule("libraries:coreCommon"))
 }
