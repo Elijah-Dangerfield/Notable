@@ -1,40 +1,52 @@
 package com.dangerfield.editnote
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.RadioButton
-import androidx.compose.material.RadioButtonDefaults
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import com.dangerfield.core.notesapi.NoteColor
 
 @Composable
-@Suppress("UnusedPrivateMember")
 fun ColorSelector(
-    modifier: Modifier = Modifier,
-    selectedColor: Int,
-    onColorSelected: (Int) -> Unit,
-    colors: List<Int>
+    currentColor: Int,
+    onColorSelected: (Int) -> Unit
 ) {
-    Text(text = "Color Selector Placeholder")
-}
-
-@Composable
-fun ColorButton(
-    color: Int,
-    onColorSelected: (Int) -> Unit,
-    selected: Boolean,
-    colors: List<Int>
-) {
-    Row() {
-        colors.forEach {
-            RadioButton(
-                selected = selected,
-                onClick = { onColorSelected.invoke(color) },
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = MaterialTheme.colors.primary,
-                    unselectedColor = MaterialTheme.colors.onBackground
-                )
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        NoteColor.values().forEach { color ->
+            val colorInt = color.argbValue
+            Box(
+                modifier = Modifier
+                    .size(50.dp)
+                    .shadow(15.dp, CircleShape)
+                    .clip(CircleShape)
+                    .background(Color(colorInt))
+                    .border(
+                        width = 3.dp,
+                        color = if (currentColor == colorInt) {
+                            Color.Black
+                        } else Color.Transparent,
+                        shape = CircleShape
+                    )
+                    .clickable {
+                        onColorSelected(colorInt)
+                    }
             )
         }
     }

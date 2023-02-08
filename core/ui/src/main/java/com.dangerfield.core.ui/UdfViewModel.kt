@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
@@ -41,6 +42,8 @@ abstract class UdfViewModel<STATE, ACTION> : ViewModel() {
                 initialState
             )
     }
+
+    suspend fun waitForState(predicate: (STATE) -> Boolean): STATE = stateStream.first { predicate(it) }
 
     protected abstract fun transformActionFlow(actionFlow: Flow<ACTION>): Flow<STATE>
 }

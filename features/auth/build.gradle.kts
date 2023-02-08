@@ -1,3 +1,5 @@
+
+
 plugins {
     id("notable.android.feature")
 }
@@ -12,4 +14,5 @@ dependencies {
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.google.truth)
     // implementation(getModule("libraries:coreCommon"))
+    implementation(project(":core:designsystem"))
 }

@@ -30,7 +30,10 @@ class OfflineFirstNoteRepository @Inject constructor(
             }
     }
 
-    override suspend fun getNote(id: String): Note? = dao.getNoteById(id)?.toDomainNote()
+    override suspend fun getNote(id: String): Note? {
+        val result = dao.getNoteById(id)
+        return result?.toDomainNote()
+    }
 
     override suspend fun updateNote(note: Note): Boolean {
         Log.d("Elijah", "setting note with id ${note.id} as PENDING UPDATE")

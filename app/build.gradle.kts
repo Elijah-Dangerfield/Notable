@@ -80,6 +80,7 @@ dependencies {
 
     implementation(project(":core:notesApi"))
     implementation(project(":core:notes"))
+    implementation(project(":core:designsystem"))
     implementation(project(":core:navigation"))
     implementation(project(":core:notes:local"))
     implementation(project(":core:notes:remote"))

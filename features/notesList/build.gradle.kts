@@ -17,6 +17,7 @@ dependencies {
     implementation(project(":core:notesApi"))
     implementation(project(":core:common"))
     implementation(project(":core:ui"))
+    implementation(project(":core:designsystem"))
 
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.ui.tooling)
