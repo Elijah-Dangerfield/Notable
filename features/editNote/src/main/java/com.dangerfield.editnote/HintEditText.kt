@@ -14,6 +14,7 @@ import androidx.compose.ui.text.input.ImeAction
 fun TextFieldWithHint(
     value: String,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     hint: @Composable () -> Unit,
     onValueChange: (String) -> Unit,
     textStyle: TextStyle = TextStyle.Default,
@@ -24,6 +25,7 @@ fun TextFieldWithHint(
     Box {
         BasicTextField(
             value = value,
+            enabled = enabled,
             onValueChange = onValueChange,
             modifier = modifier,
             textStyle = textStyle,

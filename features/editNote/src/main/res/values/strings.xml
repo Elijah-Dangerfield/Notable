@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="done">Done</string>
+    <string name="save">Save</string>
+    <string name="last_updated">Last Updated</string>
     <string name="color_section_ally">Show Color Options For This Note</string>
+    <string name="type_something">Type Something</string>
+    <string name="delete_note">Delete Note</string>
 </resources>

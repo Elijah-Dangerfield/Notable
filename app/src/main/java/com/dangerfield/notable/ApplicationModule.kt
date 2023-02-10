@@ -2,7 +2,7 @@ package com.dangerfield.notable
 
 import android.content.Context
 import androidx.room.Room
-import com.dangerfield.core.notes.OfflineFirstNoteRepository
+import com.dangerfield.core.notes.OfflineOnlyNoteRepository
 import com.dangerfield.core.notes.local.NotableDatabase
 import com.dangerfield.core.notes.local.NotesDao
 import com.dangerfield.core.notes.remote.FirebaseNotesDataSource
@@ -47,7 +47,7 @@ object ApplicationModule {
     interface Bindings {
 
         @Binds
-        fun bindNotesRepository(impl: OfflineFirstNoteRepository): NoteRepository
+        fun bindNotesRepository(impl: OfflineOnlyNoteRepository): NoteRepository
 
         @Binds
         fun bindRemoteNoteDatasource(impl: FirebaseNotesDataSource): NotesRemoteDataSource

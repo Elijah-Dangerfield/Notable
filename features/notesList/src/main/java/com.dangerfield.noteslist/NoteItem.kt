@@ -7,13 +7,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,13 +24,17 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import com.dangerfield.core.common.doNothing
+import com.dangerfield.core.designsystem.theme.NotableTheme
 import com.dangerfield.core.notesapi.Note
+import com.dangerfield.core.notesapi.getReadableUpdatedAtDateShort
+import com.dangerfield.notable.designsystem.PastelPurple
 
 @Composable
 @Suppress("MagicNumber")
@@ -39,8 +42,8 @@ fun NoteItem(
     note: Note,
     modifier: Modifier = Modifier,
     cornerRadius: Dp = 10.dp,
-    cutCornerSize: Dp = 30.dp,
-    onDeleteClicked: (Note) -> Unit
+    cutCornerSize: Dp = 0.dp,
+    onDeleteClicked: (Note) -> Unit,
 ) {
 
     Box(modifier = modifier) {
@@ -87,19 +90,30 @@ fun NoteItem(
         ) {
             Text(
                 text = note.title,
-                style = MaterialTheme.typography.h6,
-                color = MaterialTheme.colors.onSurface,
-                maxLines = 1,
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.ExtraBold),
+                color = Color.Black,
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = note.content,
-                style = MaterialTheme.typography.body1,
-                color = MaterialTheme.colors.onSurface,
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.Black,
                 maxLines = 10,
                 overflow = TextOverflow.Ellipsis
             )
+
+            val lastUpdated = note.getReadableUpdatedAtDateShort()
+            if (lastUpdated != null) {
+                Text(
+                    text = lastUpdated,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color(ColorUtils.blendARGB(note.color, Color.Black.toArgb(), 0.5f)),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
 
         IconButton(
@@ -109,7 +123,7 @@ fun NoteItem(
             Icon(
                 imageVector = Icons.Default.Delete,
                 contentDescription = stringResource(R.string.delete_note),
-                tint = MaterialTheme.colors.onSurface
+                tint = Color.Black
             )
         }
     }
@@ -118,16 +132,18 @@ fun NoteItem(
 @Preview
 @Composable
 fun previewNoteItem() {
-    NoteItem(
-        note = Note(
-            title = "Title",
-            content = "Very long content",
-            createdAt = 0L,
-            updatedAt = 0L,
-            color = Color.Red.toArgb(),
-            id = "ID123"
-        )
-    ) {
-        doNothing()
+    NotableTheme {
+        NoteItem(
+            note = Note(
+                title = "Jetpack",
+                content = "Very long content",
+                createdAt = 0L,
+                updatedAt = 0L,
+                color = PastelPurple.toArgb(),
+                id = "ID123"
+            )
+        ) {
+            doNothing()
+        }
     }
 }

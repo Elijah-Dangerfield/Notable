@@ -130,7 +130,8 @@ fun updateGradleBuildFile(moduleType: String, newDir: String) {
     var line = reader.readLine()
     while (line != null) {
         if (line.contains("namespace = \"com.dangerfield.example\"")) {
-            line = line.replace("com.dangerfield.example", "com.dangerfield.${newDir.replace("/",".").lowercase()}")
+            val newNamespace = "com.dangerfield.notable.${newDir.replace("/",".").lowercase()}"
+            line = line.replace("com.dangerfield.example", newNamespace)
         }
         modifiedLines.add(line)
         line = reader.readLine()

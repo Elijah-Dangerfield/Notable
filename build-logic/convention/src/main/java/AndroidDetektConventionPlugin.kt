@@ -9,10 +9,10 @@ import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
 
-private const val KOTLIN_FILES = "**/*.kt"
-private const val KOTLIN_SCRIPTS = "**/*.kts"
-private const val RES_FILES = "**/resources/**"
-private const val BUILD_FILES = "**/build/**"
+private const val KotlinFiles = "**/*.kt"
+private const val KotlinScripts = "**/*.kts"
+private const val ResFiles = "**/resources/**"
+private const val BuildFiles = "**/build/**"
 
 class AndroidDetektConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -54,8 +54,8 @@ class AndroidDetektConventionPlugin : Plugin<Project> {
                     source = project.fileTree(project.projectDir)
                     baseline.set(project.file("${project.rootDir}/config/detekt/detekt-baseline.xml"))
                     config.from(project.file("${project.rootDir}/config/detekt/detekt.yml"))
-                    include(KOTLIN_FILES, KOTLIN_SCRIPTS)
-                    exclude(RES_FILES, BUILD_FILES)
+                    include(KotlinFiles, KotlinScripts)
+                    exclude(ResFiles, BuildFiles)
                 }
             }
         }
@@ -76,8 +76,8 @@ fun Detekt.setupCommonDetektSettings() {
 
     source(project.file(project.projectDir))
 
-    include(KOTLIN_FILES, KOTLIN_SCRIPTS)
-    exclude(RES_FILES, BUILD_FILES)
+    include(KotlinFiles, KotlinScripts)
+    exclude(ResFiles, BuildFiles)
 
     // reports configuration
     reports {

@@ -8,12 +8,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-const val STATE_STREAM_NO_SUB_TIMEOUT = 5_000L
+const val StateStreamTimeoutNoSub = 5_000L
 
 abstract class UdfViewModel<STATE, ACTION> : ViewModel() {
 
@@ -37,10 +38,12 @@ abstract class UdfViewModel<STATE, ACTION> : ViewModel() {
             .onStart { initialAction?.let { submitAction(it) } }
             .stateIn(
                 viewModelScope,
-                SharingStarted.WhileSubscribed(STATE_STREAM_NO_SUB_TIMEOUT),
+                SharingStarted.WhileSubscribed(StateStreamTimeoutNoSub),
                 initialState
             )
     }
+
+    suspend fun waitForState(predicate: (STATE) -> Boolean): STATE = stateStream.first { predicate(it) }
 
     protected abstract fun transformActionFlow(actionFlow: Flow<ACTION>): Flow<STATE>
 }

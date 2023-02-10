@@ -22,7 +22,7 @@ class NotesListViewModel @Inject constructor(
 
     private var lastDeletedNote: Note? = null
 
-    override val initialState: State = State(emptyList(), NoteOrder.LastEdited, emptyList())
+    override val initialState: State = State(emptyList(), NoteOrder.LastEdited, emptyList(), true)
 
     override var initialAction: Action = Action.Load
 
@@ -31,8 +31,7 @@ class NotesListViewModel @Inject constructor(
             Log.d("Elijah", "Got action: $it")
             flow {
                 when (it) {
-                    Action.Load -> handleLoadNotes()
-                    Action.Refresh -> handleRefreshNotes()
+                    Action.Load -> handleLoadNotes().also { emit(state.copy(isLoading = false)) }
                     is Action.Sort -> handleUpdateNoteOrder(it.orderBy)
                     is Action.RemoveMessage -> handleMessageUpdate(it.id)
                     is Action.DeleteNote -> handleDeleteNote(it.note)
@@ -68,8 +67,6 @@ class NotesListViewModel @Inject constructor(
 
     fun messageReceived(id: String) = submitAction(Action.RemoveMessage(id))
 
-    fun refreshNotes() = submitAction(Action.Refresh)
-
     private suspend fun FlowCollector<State>.handleLoadNotes() {
         emitAll(
             noteRepository
@@ -100,14 +97,9 @@ class NotesListViewModel @Inject constructor(
         NoteOrder.Alphabetic -> notes.sortedBy { it.title }
     }
 
-    private suspend fun handleRefreshNotes() {
-        noteRepository.syncNotes()
-    }
-
     sealed class Action {
         object Load : Action()
         class RemoveMessage(val id: String) : Action()
-        object Refresh : Action()
         class DeleteNote(val note: Note) : Action()
         object RestoreLastDeletedNote : Action()
         class Sort(val orderBy: NoteOrder) : Action()
@@ -118,7 +110,8 @@ class NotesListViewModel @Inject constructor(
     data class State(
         val notes: List<Note>,
         val noteOrder: NoteOrder,
-        val messages: List<NotesListMessage>
+        val messages: List<NotesListMessage>,
+        val isLoading: Boolean
     )
 
     sealed class NotesListMessage(val id: String) {

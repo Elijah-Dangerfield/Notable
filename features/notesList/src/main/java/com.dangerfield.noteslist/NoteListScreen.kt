@@ -1,12 +1,16 @@
 package com.dangerfield.noteslist
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.calculateEndPadding
@@ -14,16 +18,18 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -36,15 +42,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.dangerfield.core.designsystem.theme.NotableTheme
 import com.dangerfield.core.notesapi.Note
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -70,6 +82,7 @@ fun NoteListRoute(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+@Suppress("LongMethod")
 private fun NoteListScreen(
     state: NotesListViewModel.State,
     onDeleteClicked: (Note) -> Unit,
@@ -81,15 +94,46 @@ private fun NoteListScreen(
     val isOrderSectionVisible = remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-
+    val context = LocalContext.current
     Scaffold(
         modifier = Modifier,
         floatingActionButton = { CreateNoteButton(onAddNoteSelected) },
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.your_notes)) },
+                title = {
+                    Text(
+                        text = if (state.notes.isEmpty()) "" else stringResource(R.string.your_notes),
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                },
                 actions = {
                     OrderSectionMenuButton(isOrderSectionVisible)
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(
+                                Color(
+                                    ColorUtils.blendARGB(
+                                        MaterialTheme.colorScheme.background.toArgb(),
+                                        MaterialTheme.colorScheme.onBackground.toArgb(),
+                                        .2f
+                                    )
+                                )
+                            )
+                            .clickable {
+                                Toast
+                                    .makeText(context, "Search has not been created yet", Toast.LENGTH_LONG)
+                                    .show()
+                            }
+                            .padding(5.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Search Notes",
+                            tint = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
                 }
             )
         },
@@ -118,19 +162,33 @@ private fun NoteListScreen(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
-
-            Notes(
-                state,
-                onDeleteClicked,
-                scope,
-                snackbarHostState,
-                onRestoreNote,
-                onNoteSelected
-            )
+            if (state.notes.isEmpty() && !state.isLoading) {
+                Column(modifier = Modifier.padding(20.dp)) {
+                    Text(
+                        text = "Welcome to Notable!",
+                        style = MaterialTheme.typography.displaySmall
+                    )
+                    Spacer(modifier = Modifier.height(22.dp))
+                    Text(
+                        text = "Create a note to get started",
+                        style = MaterialTheme.typography.headlineSmall
+                    )
+                }
+            } else {
+                Notes(
+                    state,
+                    onDeleteClicked,
+                    scope,
+                    snackbarHostState,
+                    onRestoreNote,
+                    onNoteSelected
+                )
+            }
         }
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun Notes(
     state: NotesListViewModel.State,
@@ -140,9 +198,11 @@ private fun Notes(
     onRestoreNote: () -> Unit,
     onNoteSelected: (Note) -> Unit
 ) {
-    LazyColumn(
+    LazyVerticalStaggeredGrid(
         modifier = Modifier.padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        columns = StaggeredGridCells.Fixed(2),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         items(state.notes) { note ->
             NoteItem(
@@ -174,9 +234,9 @@ private fun OrderSectionMenuButton(isOrderSectionVisible: MutableState<Boolean>)
         isOrderSectionVisible.value = !isOrderSectionVisible.value
     }) {
         Icon(
-            imageVector = Icons.Filled.Menu,
+            painter = painterResource(id = R.drawable.sort),
             contentDescription = "Show Ordering Options for Notes",
-            tint = MaterialTheme.colors.onSurface
+            tint = MaterialTheme.colorScheme.onSurface
         )
     }
 }
@@ -185,49 +245,91 @@ private fun OrderSectionMenuButton(isOrderSectionVisible: MutableState<Boolean>)
 fun CreateNoteButton(onAddNoteSelected: () -> Unit) {
     FloatingActionButton(
         onClick = onAddNoteSelected,
-        backgroundColor = MaterialTheme.colors.primary
+        containerColor = MaterialTheme.colorScheme.onBackground,
+        contentColor = MaterialTheme.colorScheme.background
     ) {
         Icon(
             imageVector = Icons.Filled.Add,
             contentDescription = stringResource(R.string.create_new_note),
-            tint = MaterialTheme.colors.onPrimary
         )
     }
 }
 
 @Composable
+@Suppress("LongMethod")
 @Preview
 fun PreviewNotesScreen() {
-    NoteListScreen(
-        state = NotesListViewModel.State(
-            notes = listOf(
-                Note(
-                    title = "TitleTitleTitleTitleTitleTitleTitleTitleTitleTitle",
-                    content = "Content",
-                    createdAt = 0L,
-                    updatedAt = 0L,
-                    color = Color.Red.toArgb(),
-                    id = "ID123"
+    NotableTheme {
+        NoteListScreen(
+            state = NotesListViewModel.State(
+                notes = listOf(
+                    Note(
+                        title = "TitleTitleTitleTitleTitleTitleTitleTitleTitleTitle",
+                        content = "Content",
+                        createdAt = 0L,
+                        updatedAt = 0L,
+                        color = Color.Red.toArgb(),
+                        id = "ID123"
+                    ),
+                    Note(
+                        title = "Title",
+                        content = "ContentContentContentContentContentContentContentContentContentContent" +
+                            "ContentContentContentContentContentContentContentContentContentContentContent" +
+                            "ContentContentContentContentContentContentContentContentContentContentContent" +
+                            "ContentContentContentContentContentContentContentContentContentContentContent",
+                        createdAt = 0L,
+                        updatedAt = 0L,
+                        color = Color.Blue.toArgb(),
+                        id = "ID123"
+                    ),
+                    Note(
+                        title = "TitleTitleTitleTitleTitleTitleTitleTitleTitleTitle",
+                        content = "Content",
+                        createdAt = 0L,
+                        updatedAt = 0L,
+                        color = Color.Red.toArgb(),
+                        id = "ID123"
+                    ),
+                    Note(
+                        title = "Title",
+                        content = "ContentContentContentContentContentContentContentContentContentContent" +
+                            "ContentContentContentContentContentContentContentContentContentContentContent" +
+                            "ContentContentContentContentContentContentContentContentContentContentContent" +
+                            "ContentContentContentContentContentContentContentContentContentContentContent",
+                        createdAt = 0L,
+                        updatedAt = 0L,
+                        color = Color.Blue.toArgb(),
+                        id = "ID123"
+                    ),
+                    Note(
+                        title = "TitleTitleTitleTitleTitleTitleTitleTitleTitleTitle",
+                        content = "Content",
+                        createdAt = 0L,
+                        updatedAt = 0L,
+                        color = Color.Red.toArgb(),
+                        id = "ID123"
+                    ),
+                    Note(
+                        title = "Title",
+                        content = "ContentContentContentContentContentContentContentContentContentContent" +
+                            "ContentContentContentContentContentContentContentContentContentContentContent" +
+                            "ContentContentContentContentContentContentContentContentContentContentContent" +
+                            "ContentContentContentContentContentContentContentContentContentContentContent",
+                        createdAt = 0L,
+                        updatedAt = 0L,
+                        color = Color.Blue.toArgb(),
+                        id = "ID123"
+                    )
                 ),
-                Note(
-                    title = "Title",
-                    content = "ContentContentContentContentContentContentContentContentContentContent" +
-                        "ContentContentContentContentContentContentContentContentContentContentContent" +
-                        "ContentContentContentContentContentContentContentContentContentContentContent" +
-                        "ContentContentContentContentContentContentContentContentContentContentContent",
-                    createdAt = 0L,
-                    updatedAt = 0L,
-                    color = Color.Blue.toArgb(),
-                    id = "ID123"
-                )
+                messages = listOf(),
+                noteOrder = NotesListViewModel.NoteOrder.Alphabetic,
+                isLoading = false
             ),
-            messages = listOf(),
-            noteOrder = NotesListViewModel.NoteOrder.Alphabetic
-        ),
-        onDeleteClicked = {},
-        onOrderChanged = {},
-        onRestoreNote = {},
-        onAddNoteSelected = {},
-        onNoteSelected = {}
-    )
+            onDeleteClicked = {},
+            onOrderChanged = {},
+            onRestoreNote = {},
+            onAddNoteSelected = {},
+            onNoteSelected = {}
+        )
+    }
 }

@@ -64,7 +64,6 @@ dependencies {
     implementation(libs.androidx.compose.runtime.tracing)
     implementation(libs.androidx.compose.material3.windowSizeClass)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.material)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.compose.foundation)
@@ -80,7 +79,7 @@ dependencies {
 
     implementation(project(":core:notesApi"))
     implementation(project(":core:notes"))
-    implementation(project(":core:navigation"))
+    implementation(project(":core:designsystem"))
     implementation(project(":core:notes:local"))
     implementation(project(":core:notes:remote"))
     implementation(project(":core:common"))
