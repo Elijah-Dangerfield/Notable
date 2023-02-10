@@ -1,11 +1,12 @@
 package com.dangerfield.editnote
 
-import android.util.Log
+import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.SavedStateHandle
 import com.dangerfield.core.notesapi.Note
-import com.dangerfield.core.notesapi.NoteColor
 import com.dangerfield.core.notesapi.NoteRepository
+import com.dangerfield.core.notesapi.getReadableUpdatedAtDate
 import com.dangerfield.core.ui.UdfViewModel
+import com.dangerfield.notable.designsystem.NoteColors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
@@ -20,20 +21,26 @@ class EditNoteViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : UdfViewModel<EditNoteViewModel.State, EditNoteViewModel.Action>() {
 
-    private var noteId = savedStateHandle.get<String>("noteId")
+    private var noteId = checkNotNull(savedStateHandle.get<String>("noteId"))
 
     override val initialAction: Action = Action.LoadNote
 
-    override val initialState = if (noteId != NEW_NOTE_ID) {
+    override val initialState = if (noteId != NewNoteId) {
         val noteColor = checkNotNull(savedStateHandle.get<Int>("noteColor"))
-        State("", "", noteColor, emptyList())
+        State("", "", noteColor, null, emptyList(), false)
     } else {
-        State(null, null, NoteColor.values().random().argbValue, emptyList())
+        State(
+            title = null,
+            content = null,
+            color = NoteColors.random().toArgb(),
+            updatedAt = null,
+            events = emptyList(),
+            hasChanged = false
+        )
     }
 
     override fun transformActionFlow(actionFlow: Flow<Action>): Flow<State> {
         return actionFlow.flatMapMerge {
-            Log.d("EditNote", "Received the action : $it")
             flow {
                 when (it) {
                     is Action.EditColor -> handleEditColor(it.color)
@@ -42,6 +49,7 @@ class EditNoteViewModel @Inject constructor(
                     is Action.LoadNote -> handleLoadNote()
                     is Action.SaveNote -> handleSaveNote()
                     is Action.ResolveEvent -> handleResolveEvent(it.id)
+                    is Action.DeleteNote -> handleDeleteNote()
                 }
             }
         }
@@ -49,66 +57,90 @@ class EditNoteViewModel @Inject constructor(
 
     fun updateColor(color: Int) = submitAction(Action.EditColor(color))
 
-    fun updateTitle(title: String) = submitAction(Action.EditTitle(title))
+    fun updateTitle(title: String) {
+        submitAction(Action.EditTitle(title))
+    }
 
-    fun updateContent(content: String) = submitAction(Action.EditContent(content))
+    fun updateContent(content: String) {
+        submitAction(Action.EditContent(content))
+    }
 
     fun save() = submitAction(Action.SaveNote)
 
-    suspend fun waitForNoteFinishedSaving() = waitForState {
-        it.events.contains(Event.NoteFinishedSaving)
-    }.events.find { it is Event.NoteFinishedSaving }?.id
+    fun delete() = submitAction(Action.DeleteNote)
 
     fun resolveEvent(id: String) = submitAction(Action.ResolveEvent(id))
+
+    private suspend fun FlowCollector<State>.handleDeleteNote() {
+        val isNewUnsavedNote = noteId == NewNoteId
+        if (!isNewUnsavedNote) {
+            noteRepository.deleteNote(noteId)
+        }
+        emit(state.copy(events = state.events + listOf(Event.NoteFinishedDeleting)))
+    }
 
     private suspend fun FlowCollector<State>.handleSaveNote() {
         val title = state.title
         val content = state.content
         val color = state.color
 
-        if (title.isNullOrEmpty() && content.isNullOrEmpty()) return // TODO produce error
+        if (!state.hasChanged) {
+            emit(state.copy(events = state.events + listOf(Event.NoteFinishedSaving(true))))
+        }
 
-        val isNewUnsavedNote = noteId == NEW_NOTE_ID
+        if (title.isNullOrEmpty() && content.isNullOrEmpty()) {
+            emit(state.copy(events = state.events + listOf(Event.NoteFinishedSaving(false))))
+            return
+        }
+
+        val isNewUnsavedNote = noteId == NewNoteId
         val note = if (isNewUnsavedNote) {
-            Log.d("Elijah", "Note was marked as a new unsaved note. This should only log ONCE")
             Note(
                 title = title ?: "",
                 content = content ?: "",
                 createdAt = System.currentTimeMillis(),
                 updatedAt = System.currentTimeMillis(),
                 color = color,
-                id = UUID.randomUUID().toString()
+                id = UUID.randomUUID().toString().also { noteId = it }
             )
         } else {
-            val savedNote = noteRepository.getNote(checkNotNull(noteId))
+            val savedNote = noteRepository.getNote(noteId)
             savedNote?.copy(
                 title = title ?: savedNote.title,
                 content = content ?: savedNote.content,
                 updatedAt = System.currentTimeMillis(),
                 color = color,
             )
-        } ?: return // TODO create error
-
-        Log.d("Elijah", "Saving note: $note")
+        } ?: run {
+            emit(state.copy(events = state.events + listOf(Event.NoteFinishedSaving(false))))
+            return
+        }
 
         if (isNewUnsavedNote) noteRepository.createNote(note) else noteRepository.updateNote(note)
-        emit(state.copy(events = state.events + listOf(Event.NoteFinishedSaving)))
+        emit(state.copy(events = state.events + listOf(Event.NoteFinishedSaving(true))))
     }
 
     private suspend fun FlowCollector<State>.handleLoadNote() {
-        Log.d("EditNote", "Load note with the id: \"$noteId\"")
-
         noteRepository.getNote(checkNotNull(noteId))?.let {
-            Log.d("EditNote", "got the note from the repository, emitting state and setting local note")
-            emit(state.copy(title = it.title, content = it.content, color = it.color))
-        } ?: Log.d("EditNote", "The note returned null from the repository")
+            emit(
+                state.copy(
+                    title = it.title,
+                    content = it.content,
+                    color = it.color,
+                    updatedAt = it.getReadableUpdatedAtDate()
+                )
+            )
+        }
     }
 
-    private suspend fun FlowCollector<State>.handleEditTitle(title: String) = emit(state.copy(title = title))
+    private suspend fun FlowCollector<State>.handleEditTitle(title: String) =
+        emit(state.copy(title = title, hasChanged = true))
 
-    private suspend fun FlowCollector<State>.handleEditContent(content: String) = emit(state.copy(content = content))
+    private suspend fun FlowCollector<State>.handleEditContent(content: String) =
+        emit(state.copy(content = content, hasChanged = true))
 
-    private suspend fun FlowCollector<State>.handleEditColor(color: Int) = emit(state.copy(color = color))
+    private suspend fun FlowCollector<State>.handleEditColor(color: Int) =
+        emit(state.copy(color = color, hasChanged = true))
 
     private suspend fun FlowCollector<State>.handleResolveEvent(id: String) {
         emit(state.copy(events = state.events.filterNot { it.id == id }))
@@ -120,17 +152,21 @@ class EditNoteViewModel @Inject constructor(
         class EditContent(val content: String) : Action()
         class EditColor(val color: Int) : Action()
         object SaveNote : Action()
+        object DeleteNote : Action()
         class ResolveEvent(val id: String) : Action()
     }
 
     sealed class Event(val id: String = UUID.randomUUID().toString()) {
-        object NoteFinishedSaving : Event()
+        class NoteFinishedSaving(val didSave: Boolean) : Event()
+        object NoteFinishedDeleting : Event()
     }
 
     data class State(
         val title: String?,
         val content: String?,
         val color: Int,
-        val events: List<Event>
+        val updatedAt: String?,
+        val events: List<Event>,
+        val hasChanged: Boolean
     )
 }

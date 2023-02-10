@@ -48,6 +48,7 @@ output.json
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json
+drive-service-account-key.json
 
 # Android Profiling
 *.hprof

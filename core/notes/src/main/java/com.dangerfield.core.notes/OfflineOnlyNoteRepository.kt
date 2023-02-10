@@ -1,6 +1,5 @@
 package com.dangerfield.core.notes
 
-import android.util.Log
 import com.dangerfield.core.notes.local.NoteOperationStatus
 import com.dangerfield.core.notes.local.NotesDao
 import com.dangerfield.core.notes.remote.NotesRemoteDataSource
@@ -11,18 +10,15 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class OfflineFirstNoteRepository @Inject constructor(
+class OfflineOnlyNoteRepository @Inject constructor(
     private val dao: NotesDao,
     private val remoteDataSource: NotesRemoteDataSource,
     private val notesConflictResolver: NotesConflictResolver
 ) : NoteRepository {
 
     override fun getNotesStream(): Flow<List<Note>> {
-        Log.d("Elijah", "Getting the notes from the local DB")
         return dao.getNotes()
             .map { localNotes ->
-                Log.d("Elijah", "Notes from the DB are: ${localNotes.size}")
-
                 val displayNotes = localNotes.filter { note ->
                     NoteOperationStatus.valueOf(note.operationStatus) == NoteOperationStatus.Idle
                 }
@@ -36,13 +32,10 @@ class OfflineFirstNoteRepository @Inject constructor(
     }
 
     override suspend fun updateNote(note: Note): Boolean {
-        Log.d("Elijah", "setting note with id ${note.id} as PENDING UPDATE")
         dao.updateNote(note = note.toLocalEntity(NoteOperationStatus.PendingUpdate))
 
-        Log.d("Elijah", "updating remote note with id ${note.id}")
-        remoteDataSource.updateNote(note.toRemoteEntity())
+        // remoteDataSource.updateNote(note.toRemoteEntity())
 
-        Log.d("Elijah", "setting note with id ${note.id} back to idle")
         dao.setNoteOperationStatus(note.id, NoteOperationStatus.Idle.name)
 
         return true
@@ -51,7 +44,7 @@ class OfflineFirstNoteRepository @Inject constructor(
     override suspend fun deleteNote(id: String): Boolean {
         dao.setNoteOperationStatus(id, NoteOperationStatus.PendingDelete.name)
 
-        remoteDataSource.deleteNote(id)
+        // remoteDataSource.deleteNote(id)
 
         dao.deleteNoteById(id)
 
@@ -59,13 +52,10 @@ class OfflineFirstNoteRepository @Inject constructor(
     }
 
     override suspend fun createNote(note: Note): Boolean {
-        Log.d("Elijah", "setting note with id ${note.id} as PENDING CREATE")
         dao.updateNote(note = note.toLocalEntity(NoteOperationStatus.PendingCreate))
 
-        Log.d("Elijah", "creating remote note with id ${note.id}")
-        remoteDataSource.createNote(note.toRemoteEntity())
+        // remoteDataSource.createNote(note.toRemoteEntity())
 
-        Log.d("Elijah", "setting note with id ${note.id} back to idle")
         dao.setNoteOperationStatus(note.id, NoteOperationStatus.Idle.name)
 
         return true

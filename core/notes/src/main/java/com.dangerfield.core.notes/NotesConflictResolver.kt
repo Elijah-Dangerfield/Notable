@@ -1,12 +1,14 @@
 package com.dangerfield.core.notes
 
 import com.dangerfield.core.notes.local.LocalNoteEntity
+import com.dangerfield.core.notes.local.NoteOperationStatus
 import com.dangerfield.core.notes.remote.RemoteNoteEntity
 import com.dangerfield.core.notesapi.Note
 import javax.inject.Inject
 
 class NotesConflictResolver @Inject constructor() {
 
+    @Suppress("UnusedPrivateMember")
     suspend fun resolve(
         localNotes: List<LocalNoteEntity>,
         pendingUpdates: List<LocalNoteEntity>,
@@ -27,6 +29,7 @@ class NotesConflictResolver @Inject constructor() {
         external update
          */
 
-        return remoteNotes.map { it.toDomainNote() }
+        // favor offline only
+        return localNotes.filter { it.operationStatus == NoteOperationStatus.Idle.name }.map { it.toDomainNote() }
     }
 }

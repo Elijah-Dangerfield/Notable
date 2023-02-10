@@ -9,14 +9,18 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
-import com.dangerfield.core.notesapi.NoteColor
+import androidx.core.graphics.ColorUtils
+import com.dangerfield.notable.designsystem.NoteColors
+
+const val DarkRatio = 0.5f
 
 @Composable
 fun ColorSelector(
@@ -29,23 +33,22 @@ fun ColorSelector(
             .padding(8.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        NoteColor.values().forEach { color ->
-            val colorInt = color.argbValue
+        NoteColors.forEach { color ->
             Box(
                 modifier = Modifier
-                    .size(50.dp)
-                    .shadow(15.dp, CircleShape)
-                    .clip(CircleShape)
-                    .background(Color(colorInt))
+                    .size(45.dp)
+                    .shadow(15.dp, RoundedCornerShape(10.dp))
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(color)
                     .border(
                         width = 3.dp,
-                        color = if (currentColor == colorInt) {
-                            Color.Black
+                        color = if (currentColor == color.toArgb()) {
+                            Color(ColorUtils.blendARGB(currentColor, Color.Black.toArgb(), DarkRatio))
                         } else Color.Transparent,
-                        shape = CircleShape
+                        shape = RoundedCornerShape(10.dp)
                     )
                     .clickable {
-                        onColorSelected(colorInt)
+                        onColorSelected(color.toArgb())
                     }
             )
         }

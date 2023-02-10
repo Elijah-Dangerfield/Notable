@@ -65,3 +65,12 @@ internal val Teal30 = Color(0xFF214D56)
 internal val Teal40 = Color(0xFF3A656F)
 internal val Teal80 = Color(0xFFA2CED9)
 internal val Teal90 = Color(0xFFBEEAF6)
+
+val PastelPurple = Color(0xFFBEA1F1)
+val PastelPink = Color(0xFFCE8FD3)
+val PastelOrange = Color(0xFFFFBCA7)
+val PastelYellow = Color(0xffe7ed9b)
+val PastelBlue = Color(0xff81deea)
+val PastelGreen = Color(0xFFB2EBB4)
+
+val NoteColors = listOf(PastelPink, PastelPurple, PastelOrange, PastelYellow, PastelBlue, PastelGreen)

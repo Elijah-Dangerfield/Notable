@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-const val STATE_STREAM_NO_SUB_TIMEOUT = 5_000L
+const val StateStreamTimeoutNoSub = 5_000L
 
 abstract class UdfViewModel<STATE, ACTION> : ViewModel() {
 
@@ -38,7 +38,7 @@ abstract class UdfViewModel<STATE, ACTION> : ViewModel() {
             .onStart { initialAction?.let { submitAction(it) } }
             .stateIn(
                 viewModelScope,
-                SharingStarted.WhileSubscribed(STATE_STREAM_NO_SUB_TIMEOUT),
+                SharingStarted.WhileSubscribed(StateStreamTimeoutNoSub),
                 initialState
             )
     }

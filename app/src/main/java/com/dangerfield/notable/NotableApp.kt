@@ -1,8 +1,8 @@
 package com.dangerfield.notable
 
 import androidx.compose.foundation.background
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -12,17 +12,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.dangerfield.core.designsystem.theme.NotableTheme
-import com.dangerfield.core.navigation.Screen
 import com.dangerfield.editnote.EditNoteRoute
 import com.dangerfield.editnote.EditNoteViewModel
-import com.dangerfield.editnote.NEW_NOTE_ID
+import com.dangerfield.editnote.NewNoteId
 import com.dangerfield.noteslist.NoteListRoute
 import com.dangerfield.noteslist.NotesListViewModel
 
 @Composable
 fun NotableApp() {
     NotableTheme {
-        Surface(modifier = Modifier.background(MaterialTheme.colors.background)) {
+        Surface(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = Screen.NoteList.route) {
 
@@ -47,7 +46,7 @@ fun NotableApp() {
                     arguments = listOf(
                         navArgument("noteId") {
                             type = NavType.StringType
-                            defaultValue = NEW_NOTE_ID
+                            defaultValue = NewNoteId
                         },
                         navArgument("noteColor") {
                             type = NavType.IntType

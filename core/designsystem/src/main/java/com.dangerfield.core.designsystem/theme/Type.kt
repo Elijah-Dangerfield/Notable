@@ -23,7 +23,8 @@ val defaultTextStyle = TextStyle(
     lineHeightStyle = LineHeightStyle(
         alignment = LineHeightStyle.Alignment.Center,
         trim = LineHeightStyle.Trim.None
-    )
+    ),
+    fontWeight = FontWeight.Medium
 )
 
 val NotableTypography = Typography(

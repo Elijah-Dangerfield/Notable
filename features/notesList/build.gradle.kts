@@ -13,7 +13,6 @@ dependencies {
     implementation(libs.androidx.compose.runtime.tracing)
     implementation(libs.androidx.compose.material3.windowSizeClass)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.material)
     implementation(project(":core:notesApi"))
     implementation(project(":core:common"))
     implementation(project(":core:ui"))

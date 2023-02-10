@@ -2,6 +2,7 @@ import com.android.build.api.dsl.ApplicationExtension
 import com.notable.convention.shared.BuildEnvironment
 import com.notable.convention.shared.SharedConstants
 import com.notable.convention.shared.buildConfigField
+import com.notable.convention.shared.checkForAppModuleSecretFiles
 import com.notable.convention.shared.configureGitHooksCheck
 import com.notable.convention.shared.configureKotlinAndroid
 import com.notable.convention.shared.getVersionCode
@@ -60,6 +61,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 }
             }
 
+            checkForAppModuleSecretFiles()
             configureGitHooksCheck()
         }
     }

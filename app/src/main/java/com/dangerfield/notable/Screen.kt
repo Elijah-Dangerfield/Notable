@@ -1,4 +1,4 @@
-package com.dangerfield.core.navigation
+package com.dangerfield.notable
 
 sealed class Screen(val route: String) {
     object NoteList : Screen("note_list")
