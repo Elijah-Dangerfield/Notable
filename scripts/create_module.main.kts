@@ -80,8 +80,9 @@ fun updateSettingGradleFile(baseDir: String, moduleName: String, parentModule: S
     val indexOfFirstInclude = settingsLines.indexOfFirst { it.matches(includePattern.toRegex()) }
     val indexOfLastInclude = settingsLines.indexOfLast { it.matches(includePattern.toRegex()) }
 
-    settingsLines.subList(indexOfFirstInclude, indexOfLastInclude).sort()
-
+    settingsLines.subList(indexOfFirstInclude, indexOfLastInclude).sortBy {
+        it.substringAfter("include(").substringBeforeLast(")")
+    }
     settingsFile.writeText(settingsLines.joinToString("\n"))
 }
 
@@ -100,7 +101,9 @@ fun createDirectory(baseDir: String, moduleName: String, parentModule: String?):
     val exampleDir = "scripts/example"
     val newDir = "$baseDir/${if (parentModule != null) "$parentModule/" else ""}$moduleName"
 
-    File(exampleDir).copyRecursively(File(newDir), overwrite = true)
+    val newDirFinal = File(newDir).apply { parentFile.mkdir() }
+
+    File(exampleDir).copyRecursively(newDirFinal, overwrite = true)
 
     return newDir
 }
@@ -117,7 +120,7 @@ fun updateGradleBuildFile(moduleType: String, newDir: String) {
     } else {
         val currentBuildFile = File("$newDir/featurebuild.gradle.kts")
         val newBuildFile = File("$newDir/build.gradle.kts")
-        val fileToDelete = File("$newDir/corebuild.gradle")
+        val fileToDelete = File("$newDir/corebuild.gradle.kts")
 
         currentBuildFile.renameTo(newBuildFile)
         fileToDelete.delete()
@@ -130,7 +133,7 @@ fun updateGradleBuildFile(moduleType: String, newDir: String) {
     var line = reader.readLine()
     while (line != null) {
         if (line.contains("namespace = \"com.dangerfield.example\"")) {
-            val newNamespace = "com.dangerfield.notable.${newDir.replace("/",".").lowercase()}"
+            val newNamespace = "com.dangerfield.templateapp.${newDir.replace("/",".").lowercase()}"
             line = line.replace("com.dangerfield.example", newNamespace)
         }
         modifiedLines.add(line)

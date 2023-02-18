@@ -19,7 +19,7 @@ fun printGreen(text: String) {
 }
 
 @Suppress("MagicNumber")
-val argCount = 3
+val argCount = 5
 
 val isHelpCall = args.isNotEmpty() && (args[0] == "-h" || args[0].contains("help"))
 if (isHelpCall || args.size < argCount) {
@@ -30,14 +30,13 @@ if (isHelpCall || args.size < argCount) {
                in. Release assets are signed unless this is being ran locally. In which case they are signed
                with a debug signing config. 
                
-               Usage: ./create_pr_assets.main.kts <is-release> <env-file-path> <signingKeyBase64> <keystorePassword> <keystoreAlias> <signingKey>
-               
-                <is-release> - true if this script is being called from a release pr
+               Usage: ./create_pr_assets.main.kts <env-file-path> <signingKeyBase64> <keystorePassword> <keystoreAlias> <signingKey>
+                <isRelease> - wether this pr is a release pr or not
                 <env-file-path> - The env file path output to  
-                <signingKeyBase64> - the keystore in base 64 format
+                <keystore path> - path to the keystore file
                 <keyStorePassword> - password for keystore
                 <keystoreAlias> - alias for keystore
-                <signingKey> - signing key
+                <key password> - signing key password
                
                 
         """.trimIndent()
@@ -50,42 +49,49 @@ if (isHelpCall || args.size < argCount) {
 @Suppress("UnusedPrivateMember", "MagicNumber")
 fun main() {
     val isRelease = args[0].toBoolean()
-    val outputEnvFile = File(args[2])
-    val keystorePath = args[3]
-    val keystorePassword = args[4]
-    val keystoreAlias = args[5]
-    val keyPassword = args[6]
+    val outputEnvFile = File(args[1])
+    val keystorePath = args[2]
+    val keystorePassword = args[3]
+    val keystoreAlias = args[4]
+    val keyPassword = args[5]
 
     val keystore = File(keystorePath)
 
     val isCIBuild = System.getenv("CI") == "true"
 
     val versionName = getAppVersionName()
-    val versionCode = getAppVersionCode()
+    val versionCode = getAppVersionName()
 
-    printGreen("Assembling all debug assets")
+    printGreen("Assembling debug assets")
     runGradleCommand("assembleDebug")
 
     renameDebugAssets(versionName, outputEnvFile, versionCode)
 
+    printGreen("Assembling release assets")
+
     if (isRelease) {
-        printGreen("Assembling release assets")
+        // we only create a bundle when the PR is a release PR, no need to do it for regular PRs
         runGradleCommand(":app:bundleRelease")
-        signAndRenameReleaseAssets(
-            versionName,
-            outputEnvFile,
-            isCIBuild,
-            versionCode,
-            keystore,
-            keystoreAlias,
-            keystorePassword,
-            keyPassword
-        )
     }
+
+    runGradleCommand(":app:assembleRelease")
+
+    signAndRenameReleaseAssets(
+        isRelease,
+        versionName,
+        outputEnvFile,
+        isCIBuild,
+        versionCode,
+        keystore,
+        keystoreAlias,
+        keystorePassword,
+        keyPassword
+    )
 }
 
 @Suppress("LongParameterList")
 fun signAndRenameReleaseAssets(
+    isRelease: Boolean,
     versionName: String,
     envFile: File,
     isCIBuild: Boolean,
@@ -105,17 +111,33 @@ fun signAndRenameReleaseAssets(
         keystorePassword,
         storeAlias,
         keyPassword,
-        "notable-release-v$versionName-$signingSuffix-$buildNumber.apk",
-        "notableReleaseApkPath",
+        "release-v$versionName-$signingSuffix-$buildNumber.apk",
+        "releaseApkPath",
         envFile.path
     )
+
+    if (isRelease) {
+        val aabAsset = File(findAabFile("app/build/outputs/bundle/release"))
+
+        runCommandLine(
+            "./scripts/sign_app.main.kts",
+            aabAsset.path,
+            keystoreFile.path,
+            keystorePassword,
+            storeAlias,
+            keyPassword,
+            "release-v$versionName-$signingSuffix-$buildNumber.aab",
+            "releaseAabPath",
+            envFile.path
+        )
+    }
 }
 
-fun renameDebugAssets(versionName: String, envFile: File, buildNumber: String) {
+fun renameDebugAssets(spyfallVersionName: String, envFile: File, buildNumber: String) {
     setOutputAssetName(
         defaultPath = findApkFile("app/build/outputs/apk/debug"),
-        name = "notable-debug-v$versionName-$buildNumber.apk",
-        outputName = "notableDebugApkPath",
+        name = "debug-v$spyfallVersionName-$buildNumber.apk",
+        outputName = "debugApkPath",
         envFile = envFile
     )
 }

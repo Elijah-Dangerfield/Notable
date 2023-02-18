@@ -21,7 +21,7 @@ fun Note.getReadableUpdatedAtDate(): String? {
         val date = Date(this.updatedAt)
         formatter.format(date).toString()
     } catch (e: ParseException) {
-        Log.d("Notable", e.message)
+        Log.d("Notable", e.message ?: "")
         null
     }
 }
@@ -32,7 +32,7 @@ fun Note.getReadableUpdatedAtDateShort(): String? {
         val date = Date(this.updatedAt)
         formatter.format(date).toString()
     } catch (e: ParseException) {
-        Log.d("Notable", e.message)
+        Log.d("Notable", e.message ?: "")
         null
     }
 }

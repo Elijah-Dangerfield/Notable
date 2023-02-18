@@ -29,7 +29,7 @@ if (isHelpCall || args.size < minArgs) {
         """
         This script comments a link to the PR of the artifacts generated for that PR
         
-        Usage: ./update_pr_comment.main.kts [GITHUB_REPO] [GITHUB_TOKEN] [PULL_NUMBER] [RUN_ID] 
+        Usage: ./update_pr_comment.main.kts [GITHUB_REPO] [GITHUB_TOKEN] [PULL_NUMBER] [RUN_ID]
         
         [GITHUB_REPO] - REPO_OWNER/REPO_NAME, provided by github actions as env variable
         [GITHUB_TOKEN] - token to interact with github provided by github actions as env variable or use PAT
@@ -79,26 +79,27 @@ fun updatePRArtifactsComment(
     val htmlUrl = repo.getWorkflowRun(runID).htmlUrl
 
     val publishedReleaseUrl =
-        "https://github.com/Elijah-Dangerfield/Notable/releases/tag/${tagName?.replace("/","%2F")}"
+        "https://github.com/Elijah-Dangerfield/templateapp/releases/tag/${tagName?.replace("/", "%2F")}"
 
-    @Suppress("MaxLineLength")
-    val baseMessage = """
-# Automated PR Assets Links
-${
-    (
-        if (releaseDraft != null) """
+    val releaseDraftMessage = if (releaseDraft != null) """
 - ##### [Release Draft](${releaseDraft.htmlUrl}) 
 - ##### [Release (once published)]($publishedReleaseUrl)
 When it is time to release, publish the draft release and merge this PR. 
-        """.trimIndent() else null
-        ) ?: ""
-    }
-    
-These assets are automatically generated on pull requests. Some links may not work until all jobs in the pull request workflow have finished. Every update to this PR will generate a new row in the assets table. 
+    """.trimIndent() else ""
+
+    @Suppress("MaxLineLength")
+    val baseMessage =
+        """
+# Automated PR Assets Links
+$releaseDraftMessage
         
-| Commit | Build Number | Assets | 
-|---|---|---|
-    """.trimIndent()
+These assets are automatically generated on pull requests . 
+Some links may not work until all jobs in the pull request workflow have finished. 
+Every update to this PR will generate a new row in the assets table.
+
+| Commit | Build Number | Assets |
+|-|-|-|
+        """.trimIndent()
 
     @Suppress("MagicNumber")
     val lastCommitSha = repo.getPullRequest(pullNumber).head.sha.take(7)
@@ -108,9 +109,7 @@ These assets are automatically generated on pull requests. Some links may not wo
         .comments.firstOrNull { it.body.contains(baseMessage) }
         ?.body
 
-    val assetsTableEntry = """
-        |$lastCommitSha | $buildNumber | [Github Action Artifacts]($htmlUrl#artifacts) |
-    """.trimIndent()
+    val assetsTableEntry = "|$lastCommitSha | $buildNumber | [Github Action Artifacts]($htmlUrl#artifacts) |"
 
     val stringToComment = if (existingComment != null) {
         "$existingComment\n$assetsTableEntry"

@@ -1,20 +1,7 @@
 #!/usr/bin/env kotlin
 
-@file:Import(
-    "data/AndroidClientInfo.kt",
-    "data/ApiKey.kt",
-    "data/AppinviteService.kt",
-    "data/Client.kt",
-    "data/ClientInfo.kt",
-    "data/GoogleServices.kt",
-    "data/IosInfo.kt",
-    "data/OauthClient.kt",
-    "data/OtherPlatformOauthClient.kt",
-    "data/ProjectInfo.kt",
-    "data/Services.kt",
-)
-@file:Import("util/GithubActionsUtil.main.kts")
 @file:DependsOn("com.google.code.gson:gson:2.8.6")
+@file:Import("util/GithubActionsUtil.main.kts")
 
 import java.io.BufferedReader
 import java.io.File
@@ -68,7 +55,7 @@ fun main() {
 }
 
 fun setPullRequestLink(writer: OutputStreamWriter, pullNumber: String) {
-    writer.writeEnvValue("pullRequestLink", "https://github.com/Elijah-Dangerfield/Notable/pull/$pullNumber")
+    writer.writeEnvValue("pullRequestLink", "https://github.com/Elijah-Dangerfield/templateapp/$pullNumber")
 }
 
 @Suppress("MaxLineLength")
@@ -80,7 +67,7 @@ fun setReleaseNotes(writer: OutputStreamWriter, pullNumber: String) {
         ```
         :warning: :warning: :warning:
         
-        ## [PR that triggered draft](https://github.com/Elijah-Dangerfield/Notable/pull/$pullNumber)
+        ## [PR that triggered this draft](https://github.com/Elijah-Dangerfield/templateapp/pull/$pullNumber)
         When you publish, please merge the above Pull Request back into main.
                  
     """.trimIndent()
@@ -98,19 +85,19 @@ fun setReleaseNotes(writer: OutputStreamWriter, pullNumber: String) {
 @Suppress("UseCheckOrError", "ThrowsCount")
 fun setReleaseVariables(writer: OutputStreamWriter, branchName: String) {
     // matches "release-words-dashes_underscores-and-num6ers/vx.y.z
-    val releaseBranchPattern = Regex("release-[\\w-]+/v\\d+\\.\\d+\\.\\d+")
 
-    val isRelease = releaseBranchPattern.matches(branchName)
+    val vXyzMatcher = "v\\d+\\.\\d+\\.\\d+".toRegex()
+    val vXyMatcher = "v\\d+\\.\\d+".toRegex()
+
+    val containsReleaseVersion = vXyMatcher.containsMatchIn(branchName) || vXyzMatcher.containsMatchIn(branchName)
+    val isRelease = branchName.contains("release") && containsReleaseVersion
 
     writer.writeEnvValue("isRelease", "$isRelease")
 
     if (!isRelease) return
 
-    val vXyzMatcher = "v\\d+\\.\\d+\\.\\d+".toRegex()
-    val vXyMatcher = "v\\d+\\.\\d+".toRegex()
-
-    val branchVersion = (vXyzMatcher.find(branchName) ?: vXyMatcher.find(branchName))?.value ?: throw
-    IllegalStateException(" branch detected to be a release but could not extract the version.")
+    val branchVersion = (vXyzMatcher.find(branchName) ?: vXyMatcher.find(branchName))?.value
+        ?: throw IllegalStateException("Branch detected to be a release but could not extract the version.")
 
     val appVersionName = getVersionName()
 
@@ -123,7 +110,7 @@ fun setReleaseVariables(writer: OutputStreamWriter, branchName: String) {
     }
 
     writer.writeEnvValue("releaseVersion", "$branchVersion")
-    writer.writeEnvValue("releaseTagName", "notable/$branchVersion")
+    writer.writeEnvValue("releaseTagName", "templateapp/$branchVersion")
 }
 
 fun getVersionName(): String {

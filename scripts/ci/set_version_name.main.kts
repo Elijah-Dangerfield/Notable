@@ -18,7 +18,7 @@ fun printGreen(text: String) {
     println(green + text + reset)
 }
 
-if (args.size < 2 || args[0] == "-h" || args[0].contains("help")) {
+if (args.isEmpty() || args[0] == "-h" || args[0].contains("help")) {
     printRed(
         """
         This script sets the version name for the application  
@@ -34,7 +34,7 @@ if (args.size < 2 || args[0] == "-h" || args[0].contains("help")) {
 
 val newVersionName = args[0].trim()
 
-printGreen("Setting the version name for Notable")
+printGreen("Setting the version name")
 
 // Load the .properties file
 val properties = Properties()
@@ -44,7 +44,7 @@ reader.close()
 
 // Update the value of the "versionName" property
 val currentVersionName = properties.getProperty("versionName").toString()
-printGreen("current version name for Notable is $currentVersionName")
+printGreen("current version name is $currentVersionName")
 
 properties.setProperty("versionName", newVersionName)
 
@@ -67,4 +67,4 @@ writer.newLine()
 properties.store(writer, null)
 writer.close()
 
-printGreen("Notable version name successfully set to $newVersionName")
+printGreen("version name successfully set to $newVersionName")
