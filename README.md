@@ -32,14 +32,14 @@ This app was built with the latest technologies and guided by the principles out
 
 The modularization followed in this code base aims to encourage low coupling and high cohesion. 
 
-It is separated into `core` and `feature` modules. The `app` module leverages these to glue together the app experience. 
+It is separated into `core` and `feature` and `app` modules. The app module acts as the glue, depending on all modules, and building the user experience. 
+
+Core modules may contain a submodule `api` used to encapsulate its intneral logic. 
 
 Rules:
 - a feature module should never depend on another feature module. Communication across modules can be defined in an interface and handled through the app module. 
-- A feature module may depend on core modules
-- a core module may not depend on feature modules. 
-- when applicable core modules should be split into api and impl modules and glued together in the app module. This enforces abstraction and hides implementation details. 
-- core modules can depend on the api module of another core module. 
+- A feature module may depend on core modules and or core api modules
+- a core module may not depend on any modules other than core api modules 
 
 Additionally I leverage a `build-logic` included build with convention plugins to cut down on build time and make the build process easier to understand and update
 
