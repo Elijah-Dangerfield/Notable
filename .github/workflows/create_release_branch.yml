@@ -20,7 +20,7 @@ jobs:
         run: ./scripts/ci/release/validate_release_inputs.main.kts ${{ github.event.inputs.versionName }}
 
       - name: Change version name
-        run: ./scripts/ci/set_version_name.main.kts ${{ github.event.inputs.versionName }}
+        run: ./scripts/ci/release/set_version_name.main.kts ${{ github.event.inputs.versionName }}
 
       - name: Create pull request into main
         uses: peter-evans/create-pull-request@v4
