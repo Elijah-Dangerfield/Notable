@@ -16,11 +16,13 @@ The goal of this project is to help me understand the basics of Compose and cont
 
 # How to run
 
-I like to keep imporant files off the internet. Some of those files are needed to run this project. When running a  `drive-service-account-key.json` file is utilized to download the needed files from a private google drive. 
+To just play with the app you can find apks and aabs attached to the latest [release](https://github.com/Elijah-Dangerfield/Notable/releases)
 
-If you would like to run this project I would love to give you access by sending you that json file :) (elijahdangerfield111@gmail.com)
+For building locally, I like to keep imporant files off the internet. Some of those files are needed to run this project, so by default running this project will fail. If you'd like to run this project feel free to contact me and I will send you those secret files :) 
 
-However, you can find apks and aabs attached to releases if you just want to play with the app!
+Contact info : elijahdangerfield111@gmail.com
+
+
 
 # Architecture
 
