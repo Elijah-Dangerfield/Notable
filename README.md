@@ -16,10 +16,11 @@ The goal of this project is to help me understand the basics of Compose and cont
 
 # How to run
 
-This app utilizes a firebase backend. 
+I like to keep imporant files off the internet. Some of those files are needed to run this project. When running a  `drive-service-account-key.json` file is utilized to download the needed files from a private google drive. 
 
-When building a check will run to ensure that the files needed by firebase are present. If they are not present during this check, a `drive-service-account-key.json` file is utilized to download the needed files from google drive. 
 If you would like to run this project I would love to give you access by sending you that json file :) (elijahdangerfield111@gmail.com)
+
+However, you can find apks and aabs attached to releases if you just want to play with the app!
 
 # Architecture
 
