@@ -133,10 +133,10 @@ fun signAndRenameReleaseAssets(
     }
 }
 
-fun renameDebugAssets(spyfallVersionName: String, envFile: File, buildNumber: String) {
+fun renameDebugAssets(versionName: String, envFile: File, buildNumber: String) {
     setOutputAssetName(
         defaultPath = findApkFile("app/build/outputs/apk/debug"),
-        name = "debug-v$spyfallVersionName-$buildNumber.apk",
+        name = "debug-v$versionName-$buildNumber.apk",
         outputName = "debugApkPath",
         envFile = envFile
     )

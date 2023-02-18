@@ -72,7 +72,7 @@ val serviceAccountKeyPath = args.getOrNull(0) ?: run {
     if (File("drive-service-account-key.json").isFile) return@run "drive-service-account-key.json"
     printRed(
         """
-        You must either pass in the path to the sdrive-service-account-key.json
+        You must either pass in the path to the drive-service-account-key.json
         file or have it installed in the root directory. 
         
         You can download the drive-service-account-key.json file from the following link: 

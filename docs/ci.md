@@ -64,7 +64,7 @@ From there all you need to do is
 1. Edit the release notes to describe your release
 2. Click the green `Publish` button at the bottom of the release draft
 
-Congratulations! You just made your a successful release!
+Congratulations! You just made your a successful release of Notable!
 
 At this point the draft is considered published and you will be able to find this release under the `releases` section on Github. 
 

@@ -18,8 +18,8 @@ jobs:
       releaseVersion: ""
       releaseTagName: ""
       releaseNotesFile: ""
-      notableDebugApkPath: ""
-      notableReleaseApkPath: ""
+      debugApkPath: ""
+      releaseApkPath: ""
       pullRequestLink: ""
 
     runs-on: ubuntu-latest
@@ -29,6 +29,16 @@ jobs:
 
       - name: Update Version Codes
         run: ./scripts/ci/set_version_code.main.kts ${{ github.run_number }}
+
+      - name: Create Service Key Json
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.2
+        with:
+          name: "drive-service-account-key.json"
+          json: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+
+      - name: Download Secret Files
+        run: ./scripts/get_secret_files.main.kts drive-service-account-key.json
 
       - name: Set Env Variables
         run: ./scripts/ci/set_pr_env_variables.main.kts ${{ github.event.pull_request.head.ref }} ${{ github.env }} ${{ github.event.pull_request.number }}
@@ -48,31 +58,36 @@ jobs:
           java-version: '11'
 
       - name: Create Keystore
-        if: ${{ env.isRelease == 'true' }}
         run: |
           echo "${{ secrets.RELEASE_KEYSTORE }}" > release.keystore.asc
-          gpg -d --passphrase "${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }}" --batch release.keystore.asc > notable.keystore
+          gpg -d --passphrase "${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }}" --batch release.keystore.asc > release.keystore
 
       - name: Create Assets
         id: createassets
-        run: ./scripts/ci/create_pr_assets.main.kts ${{ env.isRelease }} ${{ github.env }} notable.keystore ${{ secrets.KEYSTORE_PASSWORD }} ${{ secrets.KEYALIAS }} ${{ secrets.KEY_PASSWORD }}
+        run: ./scripts/ci/create_pr_assets.main.kts ${{ env.isRelease}} ${{ github.env }} release.keystore ${{ secrets.KEYSTORE_PASSWORD }} ${{ secrets.KEYALIAS }} ${{ secrets.KEY_PASSWORD }}
 
-      - name: Upload Notable Release Signed Apk
+      - name: Upload Release Signed Apk
+        uses: actions/upload-artifact@v3
+        with:
+          name: Release Apk
+          path: ${{ env.releaseApkPath }}
+
+      - name: Upload Release Signed Aab
         if: ${{ env.isRelease == 'true' }}
         uses: actions/upload-artifact@v3
         with:
-          name: Notable Release Apk
-          path: ${{ env.notableReleaseApkPath }}
+          name: Release Aab
+          path: ${{ env.releaseAabPath }}
 
-      - name: Upload Notable Debug Apk
+      - name: Upload Debug Apk
         uses: actions/upload-artifact@v3
         with:
-          name: Notable Debug Apk
-          path: ${{ env.notableDebugApkPath }}
+          name: Debug Apk
+          path: ${{ env.debugApkPath }}
 
       - name: Update Draft Release
         if: ${{ env.isRelease == 'true' }}
-        run: ./scripts/ci/update_release_draft.main.kts "${GITHUB_REPOSITORY}" ${{ secrets.GITHUB_TOKEN }} ${{ env.releaseTagName }} ${{ env.releaseNotesFile }} ${{ env.notableReleaseApkPath }} ${{ env.notableDebugApkPath }}
+        run: ./scripts/ci/release/update_release_draft.main.kts "${GITHUB_REPOSITORY}" ${{ secrets.GITHUB_TOKEN }} ${{ env.releaseTagName }} ${{ env.releaseNotesFile }} ${{ env.releaseApkPath }} ${{ env.debugApkPath }} ${{ env.releaseAabPath }}
 
       - name: Update PR Comment
         run: ./scripts/ci/update_pr_comment.main.kts "${GITHUB_REPOSITORY}" ${{ secrets.GITHUB_TOKEN }} ${{ github.event.pull_request.number }} "${GITHUB_RUN_ID}" ${{ github.run_number }} ${{ env.releaseTagName }}
@@ -96,6 +111,16 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
+
+      - name: Create Service Key Json
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.2
+        with:
+          name: "drive-service-account-key.json"
+          json: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+
+      - name: Download Secret Files
+        run: ./scripts/get_secret_files.main.kts drive-service-account-key.json
 
       - name: Detekt All
         run: ./gradlew detektAll
@@ -123,6 +148,16 @@ jobs:
         with:
           distribution: 'temurin' # See 'Supported distributions' for available options
           java-version: '11'
+
+      - name: Create Service Key Json
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.2
+        with:
+          name: "drive-service-account-key.json"
+          json: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+
+      - name: Download Secret Files
+        run: ./scripts/get_secret_files.main.kts drive-service-account-key.json
 
       - name: Unit tests
         run: ./gradlew test --stacktrace
