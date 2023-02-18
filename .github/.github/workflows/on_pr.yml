@@ -113,6 +113,16 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
+      - name: Create Service Key Json
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.2
+        with:
+          name: "drive-service-account-key.json"
+          json: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+
+      - name: Download Secret Files
+        run: ./scripts/get_secret_files.main.kts drive-service-account-key.json
+
       - name: Detekt All
         run: ./gradlew detektAll
 
@@ -139,6 +149,16 @@ jobs:
         with:
           distribution: 'temurin' # See 'Supported distributions' for available options
           java-version: '11'
+
+      - name: Create Service Key Json
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.2
+        with:
+          name: "drive-service-account-key.json"
+          json: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+
+      - name: Download Secret Files
+        run: ./scripts/get_secret_files.main.kts drive-service-account-key.json
 
       - name: Unit tests
         run: ./gradlew test --stacktrace
