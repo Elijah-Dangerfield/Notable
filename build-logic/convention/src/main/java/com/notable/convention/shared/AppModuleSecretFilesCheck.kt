@@ -14,8 +14,8 @@ internal fun Project.checkForAppModuleSecretFiles() {
     val missingServiceAccountMessage = "\n\n\n\n" + """
                     //////////////////////////////// ACTION NEEDED /////////////////////////////////////
                     
-                    A drive-service-account_key.json is needed to download secret files from google drive and get this 
-                    project running.  Please download the drive-service_account-key.json here: 
+                    A drive-service-account-key.json is needed to download secret files from google drive and get this 
+                    project running.  Please download the drive-service-account-key.json here: 
                     https://drive.google.com/file/d/1-fC0Sq04tmB2TcYHyL5W4vX-fsbtq1g4/view?usp=share_link
                     
                     You can save the file either in the root directory of this project (for temporary usage) 

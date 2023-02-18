@@ -34,11 +34,11 @@ jobs:
         id: create-json
         uses: jsdaniell/create-json@v1.2.2
         with:
-          name: "service_key.json"
+          name: "drive-service-account-key.json"
           json: ${{ secrets.SERVICE_ACCOUNT_KEY }}
 
       - name: Download Secret Files
-        run: ./scripts/get_secret_files.main.kts service_key.json
+        run: ./scripts/get_secret_files.main.kts drive-service-account-key.json
 
       - name: Set Env Variables
         run: ./scripts/ci/set_pr_env_variables.main.kts ${{ github.event.pull_request.head.ref }} ${{ github.env }} ${{ github.event.pull_request.number }}

@@ -53,14 +53,14 @@ if (isHelpCall) {
     printRed(
         """
         This script collects every required secret file from the google drive 
-        a service account key file. You must either pass in the path to the service_key.json
+        a service account key file. You must either pass in the path to the drive-service-account-key.json
         file or have it installed in the root directory. 
         
-        You can download the service-key.json file from the following link: 
-        https://drive.google.com/file/d/1t456fo07BN9NF0a3e1Ds9KNBccV1X1AQ/view?usp=share_link
+        You can download the drive-service-account-key.json file from the following link: 
+        https://drive.google.com/file/d/1-fC0Sq04tmB2TcYHyL5W4vX-fsbtq1g4/view?usp=share_link
         
         Usage: ./get_secret_files.main.kts [option]
-        option: path to service_key.json file used to access google drive
+        option: path to drive-service-account-key.json file used to access google drive
         """.trimIndent()
     )
 
@@ -69,18 +69,18 @@ if (isHelpCall) {
 }
 
 val serviceAccountKeyPath = args.getOrNull(0) ?: run {
-    if (File("service_key.json").isFile) return@run "service_key.json"
+    if (File("drive-service-account-key.json").isFile) return@run "drive-service-account-key.json"
     printRed(
         """
-        You must either pass in the path to the service_key.json
+        You must either pass in the path to the sdrive-service-account-key.json
         file or have it installed in the root directory. 
         
-        You can download the service_key.json file from the following link: 
-        https://drive.google.com/file/d/1t456fo07BN9NF0a3e1Ds9KNBccV1X1AQ/view?usp=share_link
+        You can download the drive-service-account-key.json file from the following link: 
+        https://drive.google.com/file/d/1-fC0Sq04tmB2TcYHyL5W4vX-fsbtq1g4/view?usp=share_link
         """.trimIndent()
     )
     @Suppress("TooGenericExceptionThrown")
-    throw Exception("No service_key.json file found")
+    throw Exception("No drive-service-account-key.json file found")
 }
 
 fun getFiles() {
