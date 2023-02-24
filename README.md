@@ -2,7 +2,8 @@
 
 <img src="https://user-images.githubusercontent.com/45648517/218002812-154a6b51-c36d-4eba-8779-ab3129ca6b72.png"  width="300" height="300">
 
-[![Pull Request Workflow](https://github.com/Elijah-Dangerfield/Notable/actions/workflows/on_pr.yml/badge.svg?branch=main)](https://github.com/Elijah-Dangerfield/Notable/actions/workflows/on_pr.yml)
+[![Android CI](https://github.com/Elijah-Dangerfield/Notable/actions/workflows/android.yml/badge.svg?branch=main)](https://github.com/Elijah-Dangerfield/Notable/actions/workflows/android.yml)
+
 
 The goal of this project is to help me understand the basics of Compose and continue to grow my Android development skills. As I build this app, I aim to improve my skills and knowledge of the platform and develop a functional app.
 
