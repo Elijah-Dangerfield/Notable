@@ -38,9 +38,20 @@ captures/
 *.apk
 output.json
 
-# IntelliJ
+# IntelliJ .idea folder
+.idea/workspace.xml
+.idea/misc.xml
+.idea/libraries
+.idea/caches
+.idea/navEditor.xml
+.idea/tasks.xml
+.idea/modules.xml
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/deploymentTargetDropDown.xml
+.idea/androidTestResultsUserPreferences.xml
+gradle.xml
 *.iml
-.idea/
 
 # Keystore files
 *.jks
