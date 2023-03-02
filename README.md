@@ -29,6 +29,8 @@ Contact info : elijahdangerfield111@gmail.com
 
 This app was built with the latest technologies and guided by the principles outlined in the Guide to App Architecture. Specifically, this app utilizes unidirectional data flow, ensuring a smooth and efficient user experience.
 
+### NOTE: i'm writing tests soon. Work life balance is real. 
+
 # Modularization
 
 The modularization followed in this code base aims to encourage low coupling and high cohesion. 
